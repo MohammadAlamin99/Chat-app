@@ -3,7 +3,7 @@ import { CiUser } from "react-icons/ci";
 import { AiOutlineMail } from "react-icons/ai";
 import { MdLockOutline } from "react-icons/md";
 import { BsChatText } from "react-icons/bs";
-const Login = () => {
+const Registration = () => {
     return (
         <div>
             <div className="container">
@@ -13,8 +13,10 @@ const Login = () => {
                         <h1 className='text-center'><p style={{color:"#343A40"}}> <BsChatText /></p>Chat App</h1>
                    </div>
                    <div className="form text-center">
-                        <h1>Sign In</h1>
-                        <p>Sign in to continue to Chat App.</p>
+                        <h1>Sign Up</h1>
+                        <p>Get your Chat App account now.</p>
+                        <CiUser />
+                       <input type="text" placeholder='Enter username' /> <br />
                             <AiOutlineMail />
                             <input type="text" placeholder='Enter your email' /> <br />
                             <MdLockOutline />
@@ -23,8 +25,8 @@ const Login = () => {
                             <div className="btnSection">
                                 
                         <button className='btn mb-2' style={{background:"#7269EF", color:"white",fontFamily:"'Poppins', sans-serif",fontSize:"14px"}}>Sign Up</button> <br />
-                            <p style={{color:"#343A40", fontFamily:"'Poppins', sans-serif",fontSize:"14px"}}>Don't have an account ? 
-                            <span className='px-1' style={{color:"#7269EF", fontFamily:"'Poppins', sans-serif", fontSize:"14px"}}>Signup now</span></p>
+                            <p style={{color:"#343A40", fontFamily:"'Poppins', sans-serif",fontSize:"14px"}}>Already have an account ? 
+                            <span className='px-1' style={{color:"#7269EF", fontFamily:"'Poppins', sans-serif", fontSize:"14px"}}>Signin</span></p>
                      
                             </div>
 
@@ -36,4 +38,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Registration;
