@@ -9,9 +9,7 @@ const Registration = () => {
             <div className="container">
                 <div className="row">
                     <div className="col-lg-12 p-0 justify-content-center">  
-                   <div className="logo">
-                        <h1 className='text-center'><p style={{color:"#343A40"}}> <BsChatText /></p>Chat App</h1>
-                   </div>
+                  
                    <div className="form text-center">
                         <h1>Sign Up</h1>
                         <p>Get your Chat App account now.</p>
