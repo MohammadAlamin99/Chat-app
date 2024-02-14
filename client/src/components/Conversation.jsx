@@ -35,11 +35,49 @@ return (
             </div>
         </div>
     </div>
+    <div className="row">
+        <div className="col-lg-12 mainConv">
+            <div className="img">
+                <img src={img} alt="" />
+            </div>
+            <div className="message">
+                <p>Hello how are you?</p>
+            </div>
+        </div>
+
+        <div className="col-lg-12 MymainConv">
+           <div className="mayMainMsg d-flex">
+           <div className="mymessage">
+                <p>I am Fine good</p>
+            </div>
+            <div className="myimg">
+                <img src={img} alt="" />
+            </div>
+           </div>
+        </div>
+        <div className="col-lg-12 mainConv">
+            <div className="img">
+                <img src={img} alt="" />
+            </div>
+            <div className="message">
+                <p>Where are you from?</p>
+            </div>
+        </div>
+        <div className="col-lg-12 MymainConv">
+           <div className="mayMainMsg d-flex">
+           <div className="mymessage">
+                <p>I am Fine good</p>
+            </div>
+            <div className="myimg">
+                <img src={img} alt="" />
+            </div>
+           </div>
+        </div>
 
     </div>
-    </div>
 
-   
+    </div>
+    </div>  
 </div>
 );
 };
