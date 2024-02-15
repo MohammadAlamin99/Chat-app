@@ -34,3 +34,14 @@ exports.UserLogin = async (req)=>{
         return {status:"fail", message:"something went wrong"}
     }
 }
+
+
+// Searching User for Friends
+exports.UserFriends = async (req) => {
+    try {
+        let data = await UsersModel.find();
+        return {status:"success", data:data}
+    } catch (e) {
+        return {status:"fail", message:e}
+    }
+}
