@@ -6,7 +6,8 @@ let BaseURL = "http://localhost:5000";
 export  async function SearchingFriends() {
     try {
         let result = await axios.get(BaseURL+'/api/v1/userFriends');
-        return result;
+        let data = result.data['data']
+        return data;
     }
     catch (e) {
         return false

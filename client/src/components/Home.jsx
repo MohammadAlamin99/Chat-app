@@ -11,7 +11,7 @@ return (
     <div className="leftSiteSection">
         <div className="container-fluid px-0">
             <div className="row">
-                <div className="col-lg-3" style={{background:"#1D2737", height:"auto"}}>
+                <div className="col-lg-3" style={{background:"#1D2737", height:"auto",boxShadow: "3px 3px 6px 0px #192131", zIndex:"1"}}>
                     <LeftSide/>
                 </div>
 

@@ -149,12 +149,12 @@ border-radius:5px;
 }
 
 .mainfriend{
-  overflow-x: scroll;
+  overflow: auto;
+}
+.mainfriend::-webkit-scrollbar{
+  width: 0;
 }
 
-.activeFriends::-webkit-scrollbar{
-  overflow: hidden;
-}
 
 .profileSecton p{
   color: #fff;
@@ -261,6 +261,10 @@ border-radius:5px;
   position: absolute;
   right: 0;
   top: -8px;
+}
+
+.leftScroll::-webkit-scrollbar{
+  width: 0;
 }
 
 
