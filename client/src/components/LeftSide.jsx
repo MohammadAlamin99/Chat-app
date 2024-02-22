@@ -39,50 +39,7 @@ return (
             <div className="row">
                 <div className="col-lg-12 activeFriends">
                     <div className="mainfriend d-flex">
-                        <div className="img">
-                            <img src={img} alt="" />
-                            <div className="activeFrnd"></div>
-                        </div>
-                        <div className="img">
-                            <img src={img} alt="" />
-                            <div className="activeFrnd"></div>
-                        </div>
-                        <div className="img">
-                            <img src={img} alt="" />
-                            <div className="activeFrnd"></div>
-                        </div>
-                        <div className="img">
-                            <img src={img} alt="" />
-                            <div className="activeFrnd"></div>
-                        </div>
-                        <div className="img">
-                            <img src={img} alt="" />
-                            <div className="activeFrnd"></div>
-                        </div>
-                        <div className="img">
-                            <img src={img} alt="" />
-                            <div className="activeFrnd"></div>
-                        </div>
-                        <div className="img">
-                            <img src={img} alt="" />
-                            <div className="activeFrnd"></div>
-                        </div>
-                        <div className="img">
-                            <img src={img} alt="" />
-                            <div className="activeFrnd"></div>
-                        </div>
-                        <div className="img">
-                            <img src={img} alt="" />
-                            <div className="activeFrnd"></div>
-                        </div>
-                        <div className="img">
-                            <img src={img} alt="" />
-                            <div className="activeFrnd"></div>
-                        </div>
-                        <div className="img">
-                            <img src={img} alt="" />
-                            <div className="activeFrnd"></div>
-                        </div>
+                       
                         <div className="img">
                             <img src={img} alt="" />
                             <div className="activeFrnd"></div>
