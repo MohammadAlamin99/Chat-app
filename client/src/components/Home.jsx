@@ -3,7 +3,7 @@ import LeftSide from './LeftSide';
 import RighSilde from './RighSilde';
 import img from '../assets/Images/Untitled.jpg'
 import { IoCall } from "react-icons/io5";
-import { FaKaaba, FaVideo } from "react-icons/fa";
+import { FaVideo } from "react-icons/fa";
 import { HiDotsCircleHorizontal } from "react-icons/hi";
 import { TbPhoto } from "react-icons/tb";
 import EmojiPicker from 'emoji-picker-react';

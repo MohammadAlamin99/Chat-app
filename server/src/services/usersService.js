@@ -5,9 +5,9 @@ exports.UserRegistration = async (req) => {
     try {
         let reqBody = req.body;
         await UsersModel.create(reqBody);
-        return {status:"success", message:"regestaration successfully"}
+        return {status:"success", message:"Regestaration Successfully"}
     } catch (e) {
-        return {status:"fail", message:e}
+        return {status:"fail", message:"Something Went Wrong"}
     }
 }
 
