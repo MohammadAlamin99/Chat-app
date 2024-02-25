@@ -1,18 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import {useSelector, useDispatch } from "react-redux";
 import { PiDotsThreeCircleFill } from "react-icons/pi";
 import { FaEdit } from "react-icons/fa";
 import { FaSearch } from 'react-icons/fa';
 import img from '../assets/Images/Untitled.jpg'
 import { SearchingFriends } from '../apiRequest/apiRequest';
+import { setFriends } from '../redux/state-slice/searchFriends-slice';
 const LeftSide = () => {
-const[data, setData] = useState([]);
 
+    const dispatch = useDispatch();
+    const SearchFriends = useSelector((state)=>state.searching.friends);
+    
 useEffect(()=>{
     (async()=>{
-        let result = await SearchingFriends();
-        setData(result)
+        const result = await SearchingFriends();
+        dispatch(setFriends(result))
     })()
 },[0])
+
 
 return (
 <div>
@@ -61,20 +66,20 @@ return (
             <div className="row leftScroll" style={{paddingTop:"20px", height:"450px", overflowY:"scroll"}}>
                 <div className="AddScroling">
                     {
-                    data.length>0?(
-                    data.map((item, i)=>{
-                    return(
-                    <div key={i} className="col-lg-12 activeFrndSection d-flex">
-                        <div className="img">
-                            <img src={item.photo} alt="" />
+                        SearchFriends.length>0?(
+                            SearchFriends.map((item, i)=>{
+                        return(
+                        <div key={i} className="col-lg-12 activeFrndSection d-flex">
+                            <div className="img">
+                                <img src={item.photo} alt="" />
+                            </div>
+                            <div className="text">
+                                <p>{item['userName']}</p>
+                            </div>
                         </div>
-                        <div className="text">
-                            <p>{item['userName']}</p>
-                        </div>
-                    </div>
-                    )
-                    })
-                    ):( <p>No Friends</p>)
+                        )
+                        })
+                        ):( <p>No Friends</p>)
                     }
 
 

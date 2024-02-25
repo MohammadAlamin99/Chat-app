@@ -23,7 +23,7 @@ const Login = () => {
                 window.location.href="/";
             }
             else{
-                toast.error(res['data']['message'])
+                toast.error(res['data']['message']);
             }
         }
     }
