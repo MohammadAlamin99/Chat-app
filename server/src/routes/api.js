@@ -8,6 +8,6 @@ const router = express.Router();
 
 router.post("/registration", usersController.registration);
 router.post("/login", usersController.login);
-router.get("/userFriends", usersController.userFriends);
+router.get("/userFriends",authVerificationMiddleware, usersController.userFriends);
 
 module.exports = router;

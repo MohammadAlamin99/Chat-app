@@ -17,7 +17,7 @@ exports.UserLogin = async (req)=>{
         let reqBody = req.body;
         let data = await UsersModel.aggregate([
             {$match:reqBody},
-            {$project:{"_id":0,"password":0,"createdDate":0 }}
+            {$project:{"_id":0,"password":0,"photo":0,"createdDate":0 }}
         ])
  
         if(data.length>0){

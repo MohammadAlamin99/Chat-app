@@ -1,11 +1,13 @@
 import axios from "axios";
+import { getToken } from "../helper/sessionHelper";
 
 let BaseURL = "http://localhost:5000";
+const Headers ={headers:{"token":getToken()}};
 
 // Friends section
 export  async function SearchingFriends() {
     try {
-        let result = await axios.get(BaseURL+'/api/v1/userFriends');
+        let result = await axios.get(BaseURL+'/api/v1/userFriends',Headers);
         let data = result.data['data']
         return data;
     }

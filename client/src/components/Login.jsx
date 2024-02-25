@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { CiLock, CiMail } from "react-icons/ci";
 import toast, { Toaster } from 'react-hot-toast';
 import { LoginRequest } from '../apiRequest/apiRequest';
+import { setToken, setUserDetails } from '../helper/sessionHelper';
 const Login = () => {
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -19,7 +20,9 @@ const Login = () => {
         else{
             const res = await LoginRequest(email, password);
             if(res['data']['status']==="success"){
-                toast.success(res['data']['message']);
+                setToken(res['data']['token']);
+                setUserDetails(res.data['data'])
+                toast.success("Login Successful");
                 window.location.href="/";
             }
             else{
