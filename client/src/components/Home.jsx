@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import LeftSide from './LeftSide';
+import React, { useEffect,useState } from 'react';
 import RighSilde from './RighSilde';
 import img from '../assets/Images/Untitled.jpg'
 import { IoCall } from "react-icons/io5";
@@ -7,17 +6,41 @@ import { FaVideo } from "react-icons/fa";
 import { HiDotsCircleHorizontal } from "react-icons/hi";
 import { TbPhoto } from "react-icons/tb";
 import EmojiPicker from 'emoji-picker-react';
+
+import {useSelector, useDispatch } from "react-redux";
+import { PiDotsThreeCircleFill } from "react-icons/pi";
+import { FaEdit } from "react-icons/fa";
+import { FaSearch } from 'react-icons/fa';
+import { SearchingFriends } from '../apiRequest/apiRequest';
+import { setFriends } from '../redux/state-slice/searchFriends-slice';
+
 const Home = () => {
 const [isEmoji , setIsemoji] = useState(false);
 const [toggle, setToggle] = useState(true);
 
 const onClickHandler = ()=>{
-setToggle(!toggle)
+    setToggle(!toggle)
 }
 
 const onEmoji = ()=>{
-setIsemoji(!isEmoji)
+    setIsemoji(!isEmoji)
 }
+
+
+
+const dispatch = useDispatch();
+const SearchFriends = useSelector((state)=>state.searching.friends);
+const [currentFriend, setCurrentFriend] = useState("");
+
+useEffect(()=>{
+(async()=>{
+    const result = await SearchingFriends();
+    dispatch(setFriends(result))
+})()
+},[0])
+
+
+
 return (
 <div>
     <div className="leftSiteSection">
@@ -25,7 +48,71 @@ return (
             <div className="row">
                 <div className="col-lg-3"
                     style={{background:"#1D2737", height:"auto",boxShadow: "3px 3px 6px 0px #192131", zIndex:"999"}}>
-                    <LeftSide />
+                   <div className="profileSecton">
+        <div className="row">
+            <div className="col-lg-9">
+                <div className="img d-flex">
+                    <img src="https://img.freepik.com/free-icon/share_318-197141.jpg" alt="" />
+                    <p>Social Media</p>
+                </div>
+            </div>
+            <div className="col-lg-3" style={{color:"#fff", fontSize:"20px"}}>
+                <PiDotsThreeCircleFill style={{cursor:"pointer", marginRight:"7px"}} />
+                <FaEdit style={{cursor:"pointer"}} />
+            </div>
+        </div>
+        <div className="row">
+            <div className="col-lg-12 searchSection">
+                <FaSearch className='serch' />
+                <input type="text" className="form-control px-5" id="exampleFormControlInput1" placeholder="Search"
+                    style={{color:"#fff", background:"#192131", border:"none"}} />
+            </div>
+
+            <div className="row">
+                <div className="col-lg-12 activeFriends">
+                    <div className="mainfriend d-flex">
+                       
+                        <div className="img">
+                            <img src={img} alt="" />
+                            <div className="activeFrnd"></div>
+                        </div>
+                        <div className="img">
+                            <img src={img} alt="" />
+                            <div className="activeFrnd"></div>
+                        </div>
+                        <div className="img">
+                            <img src={img} alt="" />
+                            <div className="activeFrnd"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div className="row leftScroll" style={{paddingTop:"20px", height:"450px", overflowY:"scroll"}}>
+                <div className="AddScroling ">
+                    {
+                        SearchFriends.length>0?(
+                            SearchFriends.map((item, i)=>{
+                        return(
+                        <div key={i} className="col-lg-12 activeFrndSection d-flex" onClick={()=>setCurrentFriend(item)}>
+                            <div className="img">
+                                <img src={item.photo} alt="" />
+                            </div>
+                            <div className="text">
+                                <p>{item['userName']}</p>
+                            </div>
+                        </div>
+                        )
+                        })
+                        ):( <p>No Friends</p>)
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
                 </div>
 
                     {/* massage section area */}
@@ -35,11 +122,11 @@ return (
                             <div className="borderAdding d-flex">
                                 <div className="col-10 p-0 profileSecton abc d-flex">
                                     <div className="img">
-                                        <img src={img} alt="" />
+                                        <img src={currentFriend.photo} alt="" />
                                         <div className="activeChat"></div>
                                     </div>
                                     <div className="text">
-                                        <p>Mohammad Al amin</p>
+                                        <p>{currentFriend.userName}</p>
                                     </div>
                                 </div>
                                 <div className="col-2 p-0">
@@ -56,11 +143,11 @@ return (
                                 <div className="row">
                                     <div className="col-12 msg">
                                         <div className="MsgImg">
-                                            <img src={img} alt="" />
+                                            <img src={currentFriend.photo} alt="" />
                                         </div>
                                         <div className="textSection">
-                                            <p>Mohammad Al Amin</p>
-                                            <p>Mohammad Al Amin is Connected</p>
+                                            <p>{currentFriend.userName}</p>
+                                            <p>{currentFriend.userName} is Connected</p>
                                             <p>3 days ago</p>
                                         </div>
                                     </div>
@@ -202,7 +289,7 @@ return (
 
 
                 <div className={`col-lg-3 ${toggle?("rightSideNone"):("")}`} style={{ background:"#1D2737"}}>
-                    <RighSilde />
+                    <RighSilde currentFriend={currentFriend} />
                 </div>
             </div>
         </div>

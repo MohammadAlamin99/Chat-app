@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import image from '../assets/Images/Untitled.jpg'
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { IoChevronUpOutline } from "react-icons/io5";
-const RighSilde = () => {
+const RighSilde = (props) => {
+
+    const{currentFriend} = props;
+
     const [open, setOpen] = useState(false);
     const [privacy, setPrivacy] = useState(false);
     const [img, setImg] = useState(false);
@@ -20,7 +23,7 @@ const RighSilde = () => {
             <div className="row vh-100">
                 <div className="col-12">
                         <div className="Right-img">
-                            <img src={image} alt="" />
+                            <img src={currentFriend.photo} alt="" />
                         </div>
 
                         <div className="rightActive">
@@ -28,7 +31,7 @@ const RighSilde = () => {
                         </div>
 
                         <div className="rightName">
-                            <p>Mohammad Al Amin</p>
+                            <p>{currentFriend.userName}</p>
                         </div>
 
                         <div className="customChat" >
@@ -39,10 +42,7 @@ const RighSilde = () => {
                                 :(<span><MdOutlineKeyboardArrowDown style={{fontSize:"18px"}}/></span>)
                                }
                             </div>
-                            {open && <h6 className='text-white'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est 
-                            temporibus reprehenderit aliquam aspernatur quas eius reiciendis 
-                            placeat explicabo, quo inventore quis, sequi 
-                            facilis, recusandae voluptatibus minima beatae iste? Consequuntur, quae?</h6>}
+                            {open && <h6 className='text-white'>....</h6>}
                         </div>
 
                         <div className="customChat" >
@@ -53,10 +53,7 @@ const RighSilde = () => {
                                 :(<span><MdOutlineKeyboardArrowDown style={{fontSize:"18px"}}/></span>)
                                }
                             </div>
-                            {privacy && <h6 className='text-white'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est 
-                            temporibus reprehenderit aliquam aspernatur quas eius reiciendis 
-                            placeat explicabo, quo inventore quis, sequi 
-                            facilis, recusandae voluptatibus minima beatae iste? Consequuntur, quae?</h6>}
+                            {privacy && <h6 className='text-white'>....</h6>}
                         </div>
 
 
