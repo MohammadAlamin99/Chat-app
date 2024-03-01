@@ -15,6 +15,17 @@ export  async function SearchingFriends() {
         return false
     }
  }
+// sending Massage api request
+export async function MessageSend(senderId,senderName,receverId,massage){
+    try {
+        let reqBody = {senderId:senderId,senderName:senderName,receverId:receverId,massage:massage}
+        let result = await axios.post(BaseURL+'/api/v1/message',reqBody,Headers);
+        let data = result.data['data']
+        return data;
+    } catch (e) {
+        return false 
+    }
+}
 
  export async function RegestrationRequest(userName,email,password,photo){
     try {

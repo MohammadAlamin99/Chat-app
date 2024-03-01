@@ -436,11 +436,10 @@ border-radius:5px;
   width: 100%;
   transition: all linear .3s;
   border-radius: 30px;
-  padding: 10px;
 }
 
 
-.activeFrndSection:hover{
+.active, .activeFrndSection:hover{
   background: rgb(25, 33, 49);
 }
 

@@ -1,8 +1,8 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect,useRef,useState } from 'react';
 import RighSilde from './RighSilde';
 import img from '../assets/Images/Untitled.jpg'
 import { IoCall } from "react-icons/io5";
-import { FaVideo } from "react-icons/fa";
+import { FaInstalod, FaVideo } from "react-icons/fa";
 import { HiDotsCircleHorizontal } from "react-icons/hi";
 import { TbPhoto } from "react-icons/tb";
 import EmojiPicker from 'emoji-picker-react';
@@ -11,8 +11,9 @@ import {useSelector, useDispatch } from "react-redux";
 import { PiDotsThreeCircleFill } from "react-icons/pi";
 import { FaEdit } from "react-icons/fa";
 import { FaSearch } from 'react-icons/fa';
-import { SearchingFriends } from '../apiRequest/apiRequest';
+import { MessageSend, SearchingFriends } from '../apiRequest/apiRequest';
 import { setFriends } from '../redux/state-slice/searchFriends-slice';
+import { getUserDetails } from '../helper/sessionHelper';
 
 const Home = () => {
 const [isEmoji , setIsemoji] = useState(false);
@@ -26,11 +27,12 @@ const onEmoji = ()=>{
     setIsemoji(!isEmoji)
 }
 
-
-
 const dispatch = useDispatch();
 const SearchFriends = useSelector((state)=>state.searching.friends);
 const [currentFriend, setCurrentFriend] = useState("");
+
+
+// const sendMessageState = useSelector((state)=>state.message.message)
 
 useEffect(()=>{
 (async()=>{
@@ -38,6 +40,31 @@ useEffect(()=>{
     dispatch(setFriends(result))
 })()
 },[0])
+
+
+const sendMessageRef = useRef();
+let data = getUserDetails()
+let reciverId = data._id;
+let senderId = "65db78368259992b47ee8b4f";
+let senderName = "john";
+
+
+
+const onSendMessage = async ()=>{
+    const message = sendMessageRef.current.value;
+    const response = await MessageSend(senderId,senderName,reciverId,message);
+    console.log(response);
+    
+
+    // cons
+    // useEffect(()=>{
+    //     (async()=>{
+    //         const result = await MessageSend();
+    //        dispatch(setMessage(result))
+    //     })()
+    // },[0])
+}
+
 
 
 
@@ -96,16 +123,19 @@ return (
                         SearchFriends.length>0?(
                             SearchFriends.map((item, i)=>{
                         return(
-                        <div key={i} className="col-lg-12 activeFrndSection d-flex" onClick={()=>setCurrentFriend(item)}>
-                            <div className="img">
-                                <img src={item.photo} alt="" />
+                            <div key={i} className={currentFriend._id===item._id?("col-lg-12 activeFrndSection d-flex active"):
+                                ("col-lg-12 activeFrndSection d-flex")} onClick={()=>setCurrentFriend(item)}>
+                                    <div className="img">
+                                        <img src={item.photo} alt="" />
+                                    </div>
+                                    <div className="text">
+                                        <p>{item['userName']}</p>
+                                    </div>
                             </div>
-                            <div className="text">
-                                <p>{item['userName']}</p>
-                            </div>
-                        </div>
-                        )
+                            
+                                )
                         })
+
                         ):( <p>No Friends</p>)
                     }
                 </div>
@@ -118,7 +148,9 @@ return (
                     {/* massage section area */}
                 <div className={`${toggle?("col-9 p-0"):("col-6 p-0")}`} style={{boxShadow: "3px 3px 6px 0px #192131",zIndex:'1'}}>
                     <div className="container-fluid vh-100" style={{paddingTop:"20px", background:"#1D2737"}}>
-                        <div className="row px-3">
+                        {
+                            currentFriend?(
+                                <div className="row px-3">
                             <div className="borderAdding d-flex">
                                 <div className="col-10 p-0 profileSecton abc d-flex">
                                     <div className="img">
@@ -264,14 +296,14 @@ return (
 
 
                                     <div className="texArea">
-                                        <input type="text" placeholder='Aa' name="" id="" />
+                                        <input ref={sendMessageRef} type="text" placeholder='Aa' name="" id="" />
                                     </div>
 
                                     <div className="emoji" onClick={onEmoji}>
                                         🙂
                                     </div>
 
-                                    <div className="sendFile">
+                                    <div className="sendFile" onClick={onSendMessage}>
                                         ❤
                                     </div>
                                     <div className="mainEmoji">
@@ -284,6 +316,10 @@ return (
                             </div>
 
                         </div>
+                            ):(<p style={{textAlign:"center", 
+                            fontSize:"20px", color:"white", 
+                            fontFamily:"'Poppins', sans-serif", paddingTop:"300px"}}>No chats selected</p>)
+                        }
                     </div>
                 </div>
 
