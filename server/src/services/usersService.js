@@ -23,7 +23,11 @@ exports.UserLogin = async (req)=>{
         ])
  
         if(data.length>0){
-           let payload = {data:data[0]['email']};  //token create process eikhane email take jwt .sing er moddy diya token banano hoyece..ekhn jodi cai taholy email er sathy ro kisu add korte pari
+           let payload = {
+            data:data[0]['email'],
+            id:data[0]['_id']
+            
+        };  //token create process eikhane email take jwt .sing er moddy diya token banano hoyece..ekhn jodi cai taholy email er sathy ro kisu add korte pari
            let token = jwt.sign(payload, 'bcd123');   //jwt.sing er maddome token create kora hoy
            return({status:"success",token:token, data:data[0]})
         }

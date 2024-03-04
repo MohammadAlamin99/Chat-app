@@ -16,11 +16,21 @@ export  async function SearchingFriends() {
     }
  }
 // sending Massage api request
-export async function MessageSend(senderId,senderName,receverId,massage){
+export async function MessageSend(senderId,senderName,receverId,message){
     try {
-        let reqBody = {senderId:senderId,senderName:senderName,receverId:receverId,massage:massage}
+        let reqBody = {senderId:senderId,senderName:senderName,receverId:receverId,message:message}
         let result = await axios.post(BaseURL+'/api/v1/message',reqBody,Headers);
         let data = result.data['data']
+        return data;
+    } catch (e) {
+        return false 
+    }
+}
+// get Massage api request
+export async function getMessageRequiest(id){
+    try {
+        let result = await axios.get(BaseURL+'/api/v1/getMessage/'+id, Headers);
+        let data = result.data['message'];
         return data;
     } catch (e) {
         return false 

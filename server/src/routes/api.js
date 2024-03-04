@@ -11,5 +11,6 @@ router.post("/registration", usersController.registration);
 router.post("/login", usersController.login);
 router.get("/userFriends",authVerificationMiddleware, usersController.userFriends);
 router.post("/message",authVerificationMiddleware, massageController.message);
+router.get("/getMessage/:id",authVerificationMiddleware, massageController.getMessage);
 
 module.exports = router;

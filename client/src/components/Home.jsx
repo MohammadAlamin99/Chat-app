@@ -2,7 +2,7 @@ import React, { useEffect,useRef,useState } from 'react';
 import RighSilde from './RighSilde';
 import img from '../assets/Images/Untitled.jpg'
 import { IoCall } from "react-icons/io5";
-import { FaInstalod, FaVideo } from "react-icons/fa";
+import { FaVideo } from "react-icons/fa";
 import { HiDotsCircleHorizontal } from "react-icons/hi";
 import { TbPhoto } from "react-icons/tb";
 import EmojiPicker from 'emoji-picker-react';
@@ -11,9 +11,10 @@ import {useSelector, useDispatch } from "react-redux";
 import { PiDotsThreeCircleFill } from "react-icons/pi";
 import { FaEdit } from "react-icons/fa";
 import { FaSearch } from 'react-icons/fa';
-import { MessageSend, SearchingFriends } from '../apiRequest/apiRequest';
+import { MessageSend, SearchingFriends, getMessageRequiest } from '../apiRequest/apiRequest';
 import { setFriends } from '../redux/state-slice/searchFriends-slice';
 import { getUserDetails } from '../helper/sessionHelper';
+import { setMessage } from '../redux/state-slice/getMessage-slice';
 
 const Home = () => {
 const [isEmoji , setIsemoji] = useState(false);
@@ -29,10 +30,11 @@ const onEmoji = ()=>{
 
 const dispatch = useDispatch();
 const SearchFriends = useSelector((state)=>state.searching.friends);
+const getMessage = useSelector((state)=>state.getMessage.message);
 const [currentFriend, setCurrentFriend] = useState("");
 
+console.log(getMessage)
 
-// const sendMessageState = useSelector((state)=>state.message.message)
 
 useEffect(()=>{
 (async()=>{
@@ -43,27 +45,27 @@ useEffect(()=>{
 
 
 const sendMessageRef = useRef();
-let data = getUserDetails()
-let reciverId = data._id;
-let senderId = "65db78368259992b47ee8b4f";
-let senderName = "john";
+let data = getUserDetails();
+let senderId = data._id;
+let reciverId = currentFriend._id;
+let senderName = data.userName;
 
 
 
 const onSendMessage = async ()=>{
     const message = sendMessageRef.current.value;
-    const response = await MessageSend(senderId,senderName,reciverId,message);
-    console.log(response);
-    
-
-    // cons
-    // useEffect(()=>{
-    //     (async()=>{
-    //         const result = await MessageSend();
-    //        dispatch(setMessage(result))
-    //     })()
-    // },[0])
+    await MessageSend(senderId,senderName,reciverId,message);
 }
+
+
+
+useEffect(()=>{
+    (async()=>{
+        const result = await getMessageRequiest(reciverId);
+        dispatch(setMessage(result))
+    })()
+    },[reciverId]) 
+
 
 
 
@@ -185,101 +187,59 @@ return (
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-12 mainConv">
-                                        <div className="img">
-                                            <img src={img} alt="" />
-                                        </div>
-                                        <div className="message">
-                                            <div className="msg">
-                                                <p>Hello how are you?</p>
-                                            </div>
-                                            <div className="im">
-                                                <img src={img} alt="" />
-                                            </div>
-                                            <div className="date">
-                                                <label>2 Jan 2024</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-12 mainConv">
-                                        <div className="img">
-                                            <img src={img} alt="" />
-                                        </div>
-                                        <div className="message">
-                                            <div className="msg">
-                                                <p>Hello how are you?</p>
-                                            </div>
-                                            <div className="im">
+                                    
+                                {
+    getMessage && Array.isArray(getMessage) && getMessage.length > 0 ? (
+        getMessage.map((item, i) => {
+            return (
+                <div key={i} className="col-12 mainConv">
+                    <div className="img">
+                        <img src={img} alt="" />
+                    </div>
+                    <div className="message">
+                        <div className="msg">
+                            <p>{item['message']}</p>
+                        </div>
+                        <div className="date">
+                            <label>2 Jan 2024</label>
+                        </div>
+                    </div>
+                </div>
+            )
+        })
+    ) : (
+        <p>No message</p>
+    )
+}
 
-                                            </div>
-                                            <div className="date">
-                                                <label>2 Jan 2024</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-12 mainConv">
-                                        <div className="img">
-                                            <img src={img} alt="" />
-                                        </div>
-                                        <div className="message">
-                                            <div className="msg">
-                                                <p>Hello how are you?</p>
-                                            </div>
-                                            <div className="im">
-                                                <img src={img} alt="" />
-                                            </div>
-                                            <div className="date">
-                                                <label>2 Jan 2024</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-12 mainConv">
-                                        <div className="img">
-                                            <img src={img} alt="" />
-                                        </div>
-                                        <div className="message">
-                                            <div className="msg">
-                                                <p>Hello how are you?</p>
-                                            </div>
 
-                                            <div className="date">
-                                                <label>2 Jan 2024</label>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div className="col-12 MymainConv">
-                                        <div className="mymessage">
-                                            <div className="mymsg">
-                                                <p>I am Fine, good</p>
-                                            </div>
-                                            <div className="img">
+                                        {
+                                            getMessage.length>0?(
+                                                getMessage.map((item, i)=>{
+                                                    return(
+                                                        <div key={i} className="col-12 MymainConv">
+                                                <div className="mymessage">
+                                                    <div className="mymsg">
+                                                        <p>{item['message']}</p>
+                                                    </div>
+                                                    <div className="img">
 
-                                            </div>
-                                            <div className="date">
-                                                <label>2 Jan 2024</label>
-                                            </div>
-                                        </div>
-                                        <div className="myimg">
-                                            <img src={img} alt="" />
-                                        </div>
-                                    </div>
-                                    <div className="col-12 MymainConv">
-                                        <div className="mymessage">
-                                            <div className="mymsg">
-                                                <p>I am Fine, good</p>
-                                            </div>
-                                            <div className="img">
-
-                                            </div>
-                                            <div className="date">
-                                                <label>2 Jan 2024</label>
-                                            </div>
-                                        </div>
-                                        <div className="myimg">
-                                            <img src={img} alt="" />
-                                        </div>
-                                    </div>
+                                                    </div>
+                                                    <div className="date">
+                                                        <label>2 Jan 2024</label>
+                                                    </div>
+                                                </div>
+                                                        <div className="myimg">
+                                                            <img src={img} alt="" />
+                                                        </div>
+                                                </div>
+                                                    )
+                                                })
+                                            ):(<p>no message</p>)
+                                        }
+                                    
+                                   
 
                                 </div>
                             </div>
