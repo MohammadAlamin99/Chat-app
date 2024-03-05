@@ -33,7 +33,6 @@ const SearchFriends = useSelector((state)=>state.searching.friends);
 const getMessage = useSelector((state)=>state.getMessage.message);
 const [currentFriend, setCurrentFriend] = useState("");
 
-console.log(getMessage)
 
 
 useEffect(()=>{
@@ -65,7 +64,6 @@ useEffect(()=>{
         dispatch(setMessage(result))
     })()
     },[reciverId]) 
-
 
 
 
@@ -124,6 +122,7 @@ return (
                     {
                         SearchFriends.length>0?(
                             SearchFriends.map((item, i)=>{
+                                // ei khane etutk mony rakhte hby je jodi ami kono db er user show korai and then active use korar jonno currentFriedn state use korbo
                         return(
                             <div key={i} className={currentFriend._id===item._id?("col-lg-12 activeFrndSection d-flex active"):
                                 ("col-lg-12 activeFrndSection d-flex")} onClick={()=>setCurrentFriend(item)}>
@@ -189,21 +188,67 @@ return (
                                 <div className="row">
                                     
                                 {
+                                    getMessage && Array.isArray(getMessage) && getMessage.length > 0 ? (
+                                        getMessage.filter(item => item.senderId !== senderId).map((item, i) => {
+                                            return (
+                                                <div key={i} className="col-12 mainConv">
+                                                    <div className="img">
+                                                        <img src={img} alt="" />
+                                                    </div>
+                                                    <div className="message">
+                                                        <div className="msg">
+                                                            <p>{item['message']}</p>
+                                                        </div>
+                                                        <div className="date">
+                                                            <label>2 Jan 2024</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )
+                                        })
+                                    ) : (
+                                        <p>No message</p>
+                                    )
+                                }
+
+
+
+{
     getMessage && Array.isArray(getMessage) && getMessage.length > 0 ? (
         getMessage.map((item, i) => {
             return (
-                <div key={i} className="col-12 mainConv">
-                    <div className="img">
-                        <img src={img} alt="" />
-                    </div>
-                    <div className="message">
-                        <div className="msg">
-                            <p>{item['message']}</p>
+                <div key={i} className="col-12">
+                    {item.senderId !== senderId ? (
+                        // Display recipient's message
+                        <div className="mainConv">
+                            <div className="img">
+                                <img src={img} alt="" />
+                            </div>
+                            <div className="message">
+                                <div className="msg">
+                                    <p>{item.message}</p>
+                                </div>
+                                <div className="date">
+                                    <label>2 Jan 2024</label>
+                                </div>
+                            </div>
                         </div>
-                        <div className="date">
-                            <label>2 Jan 2024</label>
+                    ) : (
+                        // Display sender's message
+                        <div className="MymainConv">
+                            <div className="mymessage">
+                                <div className="mymsg">
+                                    <p>{item.message}</p>
+                                </div>
+                                <div className="date">
+                                    <label>2 Jan 2024</label>
+                                </div>
+                            </div>
+                            <div className="myimg">
+                                <img src={img} alt="" />
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             )
         })
@@ -212,32 +257,6 @@ return (
     )
 }
 
-
-
-                                        {
-                                            getMessage.length>0?(
-                                                getMessage.map((item, i)=>{
-                                                    return(
-                                                        <div key={i} className="col-12 MymainConv">
-                                                <div className="mymessage">
-                                                    <div className="mymsg">
-                                                        <p>{item['message']}</p>
-                                                    </div>
-                                                    <div className="img">
-
-                                                    </div>
-                                                    <div className="date">
-                                                        <label>2 Jan 2024</label>
-                                                    </div>
-                                                </div>
-                                                        <div className="myimg">
-                                                            <img src={img} alt="" />
-                                                        </div>
-                                                </div>
-                                                    )
-                                                })
-                                            ):(<p>no message</p>)
-                                        }
                                     
                                    
 
