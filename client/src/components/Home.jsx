@@ -42,7 +42,7 @@ useEffect(()=>{
 })()
 },[0])
 
-
+const lastMessageRef = useRef();
 const sendMessageRef = useRef();
 let data = getUserDetails();
 let senderId = data._id;
@@ -54,7 +54,18 @@ let senderName = data.userName;
 const onSendMessage = async ()=>{
     const message = sendMessageRef.current.value;
     await MessageSend(senderId,senderName,reciverId,message);
+
+        // Clear the input field after sending the message
+        sendMessageRef.current.value = '';
+        // without reload msg send successfully
+        const updatedMessages = await getMessageRequiest(reciverId);
+        dispatch(setMessage(updatedMessages));
+      
 }
+
+useEffect(()=>{
+    lastMessageRef.current ?.scrollIntoView({ behavior: 'smooth' });
+},[getMessage])
 
 
 
@@ -65,7 +76,7 @@ useEffect(()=>{
     })()
     },[reciverId]) 
 
-
+// use chat gpt
 
 
 return (
@@ -121,10 +132,12 @@ return (
                 <div className="AddScroling ">
                     {
                         SearchFriends.length>0?(
-                            SearchFriends.map((item, i)=>{
-                                // ei khane etutk mony rakhte hby je jodi ami kono db er user show korai and then active use korar jonno currentFriedn state use korbo
+                            SearchFriends.filter(f=>f._id!==senderId).map((item, i)=>{
+                                // ei khane etutk mony rakhte hby je jodi 
+                                // ami kono db er user show korai and then active use korar jonno 
+                                // currentFriedn state use korbo
                         return(
-                            <div key={i} className={currentFriend._id===item._id?("col-lg-12 activeFrndSection d-flex active"):
+                            <div key={i} className={currentFriend._id===item._id ?("col-lg-12 activeFrndSection d-flex active"):
                                 ("col-lg-12 activeFrndSection d-flex")} onClick={()=>setCurrentFriend(item)}>
                                     <div className="img">
                                         <img src={item.photo} alt="" />
@@ -187,37 +200,13 @@ return (
                                 </div>
                                 <div className="row">
                                     
-                                {
-                                    getMessage && Array.isArray(getMessage) && getMessage.length > 0 ? (
-                                        getMessage.filter(item => item.senderId !== senderId).map((item, i) => {
-                                            return (
-                                                <div key={i} className="col-12 mainConv">
-                                                    <div className="img">
-                                                        <img src={img} alt="" />
-                                                    </div>
-                                                    <div className="message">
-                                                        <div className="msg">
-                                                            <p>{item['message']}</p>
-                                                        </div>
-                                                        <div className="date">
-                                                            <label>2 Jan 2024</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )
-                                        })
-                                    ) : (
-                                        <p>No message</p>
-                                    )
-                                }
-
-
+                               
 
 {
     getMessage && Array.isArray(getMessage) && getMessage.length > 0 ? (
         getMessage.map((item, i) => {
             return (
-                <div key={i} className="col-12">
+                <div key={i} className="col-12" ref={lastMessageRef}>
                     {item.senderId !== senderId ? (
                         // Display recipient's message
                         <div className="mainConv">
