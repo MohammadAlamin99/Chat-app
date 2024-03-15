@@ -1,3 +1,4 @@
+
 const massageModel = require("../models/massageModel");
 
 exports.message = async (req) => {
@@ -25,3 +26,20 @@ exports.getMessage = async (req) => {
         return { status: "fail", message: "Something Went Wrong" };
     }
 };
+
+
+exports.sendImageMessage = async (req) => {
+    try {
+        let reqBody = req.body;
+        let image = req.file.filename;
+        reqBody.image = image;
+        let result = await massageModel.create(reqBody);
+        return {status:"success", message:result}
+    } catch (e) {
+        console.log(e)
+        return {status:"fail", message:"Something Went Wrong"}
+    }
+}
+
+
+

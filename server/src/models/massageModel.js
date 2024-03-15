@@ -17,6 +17,10 @@ const dataSchema = mongoose.Schema({
        type:String,
        default:""
     },
+    image:{
+       type:String,
+       default:""
+    },
     
     createdDate: {type:Date, default:Date.now()}
 },{versionKey: false})

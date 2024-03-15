@@ -223,11 +223,15 @@ border-radius:5px;
   padding-left: 22px;
 }
 
-.mymessage img{
-  height: 150px;
-  width: 150px;
-  margin-left: 130px;
+.myimage img{
+  height: auto;
+  width: 200px;
 }
+.massage img{
+  height: auto;
+  width: 200px;
+}
+
 .mymessage label{
   color: #a3a3a3;
   font-size: 13px;

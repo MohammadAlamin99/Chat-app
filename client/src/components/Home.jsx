@@ -5,13 +5,13 @@ import { IoCall } from "react-icons/io5";
 import { FaVideo } from "react-icons/fa";
 import { HiDotsCircleHorizontal } from "react-icons/hi";
 import { TbPhoto } from "react-icons/tb";
-import EmojiPicker from 'emoji-picker-react';
+import Picker from "emoji-picker-react";
 
 import {useSelector, useDispatch } from "react-redux";
 import { PiDotsThreeCircleFill } from "react-icons/pi";
 import { FaEdit } from "react-icons/fa";
 import { FaSearch } from 'react-icons/fa';
-import { MessageSend, SearchingFriends, getMessageRequiest } from '../apiRequest/apiRequest';
+import { MessageSend, SearchingFriends, getMessageRequiest, imageMessageSendRequest } from '../apiRequest/apiRequest';
 import { setFriends } from '../redux/state-slice/searchFriends-slice';
 import { getUserDetails } from '../helper/sessionHelper';
 import { setMessage } from '../redux/state-slice/getMessage-slice';
@@ -46,20 +46,26 @@ const lastMessageRef = useRef();
 const sendMessageRef = useRef();
 let data = getUserDetails();
 let senderId = data._id;
-let reciverId = currentFriend._id;
+let receverId = currentFriend._id;
 let senderName = data.userName;
 
 
-
 const onSendMessage = async ()=>{
-    const message = sendMessageRef.current.value;
-    await MessageSend(senderId,senderName,reciverId,message);
+    let message = sendMessageRef.current.value;
+    if(message.length<=0){
+        message = "❤"
+    }
+    else{
+        await MessageSend(senderId,senderName,receverId,message);
+    }
 
         // Clear the input field after sending the message
-        sendMessageRef.current.value = '';
+        setInputStr('');
         // without reload msg send successfully
-        const updatedMessages = await getMessageRequiest(reciverId);
+        const updatedMessages = await getMessageRequiest(receverId);
         dispatch(setMessage(updatedMessages));
+
+
       
 }
 
@@ -71,13 +77,32 @@ useEffect(()=>{
 
 useEffect(()=>{
     (async()=>{
-        const result = await getMessageRequiest(reciverId);
+        const result = await getMessageRequiest(receverId);
         dispatch(setMessage(result))
     })()
-    },[reciverId]) 
+    },[receverId]) 
 
-// use chat gpt
+// emoji set up
 
+const [inputStr, setInputStr] = useState("");
+
+const onEmojiClick = (emojiObject) => {
+    setInputStr((prevInput) => prevInput + emojiObject.emoji);
+  };
+
+//   sending image for friends
+
+const sendImage = async (e) => {
+    if (e.target.files.length !== 0) {
+        const formData = new FormData();
+        formData.append('senderId', senderId);
+        formData.append('senderName', senderName);
+        formData.append('receverId', receverId); 
+        formData.append('image', e.target.files[0]);
+        
+        let result = await imageMessageSendRequest(formData);
+    }
+}
 
 return (
 <div>
@@ -159,7 +184,6 @@ return (
     </div>
                 </div>
 
-                    {/* massage section area */}
                 <div className={`${toggle?("col-9 p-0"):("col-6 p-0")}`} style={{boxShadow: "3px 3px 6px 0px #192131",zIndex:'1'}}>
                     <div className="container-fluid vh-100" style={{paddingTop:"20px", background:"#1D2737"}}>
                         {
@@ -208,14 +232,16 @@ return (
             return (
                 <div key={i} className="col-12" ref={lastMessageRef}>
                     {item.senderId !== senderId ? (
-                        // Display recipient's message
                         <div className="mainConv">
                             <div className="img">
-                                <img src={img} alt="" />
+                                <img src={currentFriend.photo} alt="" />
                             </div>
                             <div className="message">
-                                <div className="msg">
+                                <div className={item.message.length>0?("msg"):"d-none"}>
                                     <p>{item.message}</p>
+                                </div>
+                                <div className={item.image.length>0?("myimage"):"d-none"}>
+                                <img src={`/documents/${item.image}`} alt="" />
                                 </div>
                                 <div className="date">
                                     <label>2 Jan 2024</label>
@@ -223,18 +249,18 @@ return (
                             </div>
                         </div>
                     ) : (
-                        // Display sender's message
+                        
                         <div className="MymainConv">
                             <div className="mymessage">
-                                <div className="mymsg">
+                                <div className={item.message.length>0?("mymsg"):"d-none"}>
                                     <p>{item.message}</p>
+                                </div>
+                                <div className={item.image.length>0?("myimage"):"d-none"}>
+                                  <img src={`/documents/${item.image}`} alt="" />
                                 </div>
                                 <div className="date">
                                     <label>2 Jan 2024</label>
                                 </div>
-                            </div>
-                            <div className="myimg">
-                                <img src={img} alt="" />
                             </div>
                         </div>
                     )}
@@ -244,17 +270,14 @@ return (
     ) : (
         <p>No message</p>
     )
-}
-
-                                    
-                                   
+}                               
 
                                 </div>
                             </div>
                             <div className="row pt-3">
                                 <div className="col-12 d-flex full">
                                     <div className="file customHover">
-                                        <input type="file" id="myFile" name="filename" />
+                                        <input onChange={sendImage} type="file" id="myFile" name="filename" />
                                         <div className="picHover">
                                             Add Image
                                         </div>
@@ -264,7 +287,11 @@ return (
 
 
                                     <div className="texArea">
-                                        <input ref={sendMessageRef} type="text" placeholder='Aa' name="" id="" />
+                                        <input
+                                         value={inputStr}
+                                         onChange={(e) => setInputStr(e.target.value)}
+                                         ref={sendMessageRef} 
+                                         type="text" placeholder='Aa' name="" id="" />
                                     </div>
 
                                     <div className="emoji" onClick={onEmoji}>
@@ -277,7 +304,7 @@ return (
                                     <div className="mainEmoji">
                                         <div className="emoji-section">
                                             {isEmoji &&
-                                            <EmojiPicker className='emojiPicker' />}
+                                            <Picker onEmojiClick={onEmojiClick} className='emojiPicker' />}
                                         </div>
                                     </div>
                                 </div>

@@ -16,7 +16,7 @@ export  async function SearchingFriends() {
     }
  }
 // sending Massage api request
-export async function MessageSend(senderId,senderName,receverId,message){
+export async function MessageSend(senderId,senderName,receverId,message,image){
     try {
         let reqBody = {senderId:senderId,senderName:senderName,receverId:receverId,message:message}
         let result = await axios.post(BaseURL+'/api/v1/message',reqBody,Headers);
@@ -26,6 +26,33 @@ export async function MessageSend(senderId,senderName,receverId,message){
         return false 
     }
 }
+// sending imgae api request
+// export async function imageMessageSendRequest(senderId,senderName,receverId,image){
+//     try {
+//         let reqBody = {senderId:senderId,senderName:senderName,receverId:receverId,image:image}
+//         let result = await axios.post(BaseURL+'/api/v1/sendImage',reqBody,Headers);
+//         console.log("imagesending",reqBody)
+//         return result;
+//     } catch (e) {
+//         return false 
+//     }
+// }
+
+export async function imageMessageSendRequest(formData) {
+    try {
+        const response = await fetch(BaseURL+'/api/v1/sendImage', {
+            method: 'POST',
+            body: formData
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        return { error: 'An error occurred' };
+    }
+}
+
+
+
 // get Massage api request
 export async function getMessageRequiest(id){
     try {
