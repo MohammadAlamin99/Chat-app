@@ -36,7 +36,6 @@ exports.sendImageMessage = async (req) => {
         let result = await massageModel.create(reqBody);
         return {status:"success", message:result}
     } catch (e) {
-        console.log(e)
         return {status:"fail", message:"Something Went Wrong"}
     }
 }

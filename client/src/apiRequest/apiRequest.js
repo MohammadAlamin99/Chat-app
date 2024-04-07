@@ -27,29 +27,15 @@ export async function MessageSend(senderId,senderName,receverId,message,image){
     }
 }
 // sending imgae api request
-// export async function imageMessageSendRequest(senderId,senderName,receverId,image){
-//     try {
-//         let reqBody = {senderId:senderId,senderName:senderName,receverId:receverId,image:image}
-//         let result = await axios.post(BaseURL+'/api/v1/sendImage',reqBody,Headers);
-//         console.log("imagesending",reqBody)
-//         return result;
-//     } catch (e) {
-//         return false 
-//     }
-// }
-
-export async function imageMessageSendRequest(formData) {
+export async function imageMessageSendRequest(formData){
     try {
-        const response = await fetch(BaseURL+'/api/v1/sendImage', {
-            method: 'POST',
-            body: formData
-        });
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        return { error: 'An error occurred' };
+        let result = await axios.post(BaseURL+'/api/v1/sendImage',formData,Headers);
+        return result;
+    } catch (e) {
+        return false 
     }
 }
+
 
 
 

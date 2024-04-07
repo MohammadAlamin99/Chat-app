@@ -1,6 +1,5 @@
 import React, { useEffect,useRef,useState } from 'react';
 import RighSilde from './RighSilde';
-import img from '../assets/Images/Untitled.jpg'
 import { IoCall } from "react-icons/io5";
 import { FaVideo } from "react-icons/fa";
 import { HiDotsCircleHorizontal } from "react-icons/hi";
@@ -15,11 +14,12 @@ import { MessageSend, SearchingFriends, getMessageRequiest, imageMessageSendRequ
 import { setFriends } from '../redux/state-slice/searchFriends-slice';
 import { getUserDetails } from '../helper/sessionHelper';
 import { setMessage } from '../redux/state-slice/getMessage-slice';
+import {io} from 'socket.io-client';
 
 const Home = () => {
 const [isEmoji , setIsemoji] = useState(false);
 const [toggle, setToggle] = useState(true);
-
+const [activeFriend, setActiveFriend] = useState([])
 const onClickHandler = ()=>{
     setToggle(!toggle)
 }
@@ -32,8 +32,7 @@ const dispatch = useDispatch();
 const SearchFriends = useSelector((state)=>state.searching.friends);
 const getMessage = useSelector((state)=>state.getMessage.message);
 const [currentFriend, setCurrentFriend] = useState("");
-
-
+const [socketMessage, setSocketMessage] = useState("");
 
 useEffect(()=>{
 (async()=>{
@@ -44,10 +43,57 @@ useEffect(()=>{
 
 const lastMessageRef = useRef();
 const sendMessageRef = useRef();
+
+const socket = useRef();
+
+
 let data = getUserDetails();
 let senderId = data._id;
 let receverId = currentFriend._id;
 let senderName = data.userName;
+
+
+// useing socket io
+
+
+useEffect(()=>{
+    socket.current = io('ws://localhost:8000');
+    // get message from socket
+    socket.current.on("getMessage",(data)=>{
+        setSocketMessage(data)
+    })
+},[])
+
+
+
+
+useEffect(()=>{
+    if(socketMessage && currentFriend){
+        if(socketMessage.senderId===currentFriend._id &&
+        socketMessage.receverId===senderId){
+            console.log("socketMesg", socketMessage)
+            useDispatch(setMessage([...getMessage, socketMessage]))
+        }
+    }
+},[socketMessage])
+
+useEffect(()=>{
+    socket.current.emit('addUser', senderId, data);
+},[])
+
+// recever user from socket
+
+useEffect(()=>{
+        socket.current.on("getUser",(user)=>{
+        const filterUser = user.filter(u=>u.senderId!==data._id)
+        setActiveFriend(filterUser);
+    })
+},[])
+
+
+
+
+
 
 
 const onSendMessage = async ()=>{
@@ -59,14 +105,16 @@ const onSendMessage = async ()=>{
         await MessageSend(senderId,senderName,receverId,message);
     }
 
-        // Clear the input field after sending the message
         setInputStr('');
-        // without reload msg send successfully
         const updatedMessages = await getMessageRequiest(receverId);
         dispatch(setMessage(updatedMessages));
-
-
-      
+        socket.current.emit("sendMessage",{
+            senderId : senderId,
+            senderName: senderName,
+            receverId:receverId,
+            time:new Date(),
+            message:message
+        })
 }
 
 useEffect(()=>{
@@ -134,19 +182,21 @@ return (
             <div className="row">
                 <div className="col-lg-12 activeFriends">
                     <div className="mainfriend d-flex">
+                    {
+                            activeFriend.length>0?(
+                                activeFriend.map((item, i)=>{
+                                    return(
+                                        <div key={i} className="img">
+                                            <img src={item.data.photo} alt="" />
+                                            <div className="activeFrnd"></div>
+                                        </div>
+                                        )
+                                })
+                            ):("No Active Friend")
+                    }
                        
-                        <div className="img">
-                            <img src={img} alt="" />
-                            <div className="activeFrnd"></div>
-                        </div>
-                        <div className="img">
-                            <img src={img} alt="" />
-                            <div className="activeFrnd"></div>
-                        </div>
-                        <div className="img">
-                            <img src={img} alt="" />
-                            <div className="activeFrnd"></div>
-                        </div>
+                        
+                       
                     </div>
 
                 </div>
@@ -222,9 +272,7 @@ return (
                                         </div>
                                     </div>
                                 </div>
-                                <div className="row">
-                                    
-                               
+                                <div className="row">                            
 
 {
     getMessage && Array.isArray(getMessage) && getMessage.length > 0 ? (
@@ -271,7 +319,6 @@ return (
         <p>No message</p>
     )
 }                               
-
                                 </div>
                             </div>
                             <div className="row pt-3">
