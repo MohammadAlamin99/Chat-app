@@ -68,11 +68,19 @@ useEffect(()=>{
 
 
 useEffect(()=>{
-    if(socketMessage && currentFriend){
-        if(socketMessage.senderId===currentFriend._id &&
-        socketMessage.receverId===senderId){
-            console.log("socketMesg", socketMessage)
-            useDispatch(setMessage([...getMessage, socketMessage]))
+    // if (socketMessage && currentFriend){
+    //     if (socketMessage.senderId===currentFriend._id &&
+    //     socketMessage.receverId===senderId){
+    //         console.log("socketMesg", socketMessage)
+    //         useDispatch(setMessage([...getMessage, socketMessage]))
+    //     }
+    // }
+
+    if (socketMessage && currentFriend) {
+        if (socketMessage.senderId === currentFriend._id &&
+            socketMessage.receverId === senderId) {
+            console.log("socketMesg", socketMessage);
+            dispatch(setMessage([...getMessage, socketMessage]));
         }
     }
 },[socketMessage])
@@ -288,9 +296,9 @@ return (
                                 <div className={item.message.length>0?("msg"):"d-none"}>
                                     <p>{item.message}</p>
                                 </div>
-                                <div className={item.image.length>0?("myimage"):"d-none"}>
+                                {/* <div className={item.image.length>0?("myimage"):"d-none"}>
                                 <img src={`/documents/${item.image}`} alt="" />
-                                </div>
+                                </div> */}
                                 <div className="date">
                                     <label>2 Jan 2024</label>
                                 </div>
@@ -303,9 +311,9 @@ return (
                                 <div className={item.message.length>0?("mymsg"):"d-none"}>
                                     <p>{item.message}</p>
                                 </div>
-                                <div className={item.image.length>0?("myimage"):"d-none"}>
+                                {/* <div className={item.image.length>0?("myimage"):"d-none"}>
                                   <img src={`/documents/${item.image}`} alt="" />
-                                </div>
+                                </div> */}
                                 <div className="date">
                                     <label>2 Jan 2024</label>
                                 </div>
