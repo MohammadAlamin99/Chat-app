@@ -79,7 +79,6 @@ useEffect(()=>{
     if (socketMessage && currentFriend) {
         if (socketMessage.senderId === currentFriend._id &&
             socketMessage.receverId === senderId) {
-                console.log(socketMessage)
             dispatch(setMessage([...getMessage, socketMessage]));
         }
     }
@@ -302,40 +301,32 @@ return (
                                 <img src={currentFriend.photo} alt="" />
                             </div>
                             <div className="message">
-                                {
-                                    item.message.length>0?(
-                                        <div className={item.message.length>0?("msg"):"d-none"}>
+                                    <div className={item.message?("msg"):"d-none"}>
                                         <p>{item.message}</p>
                                     </div>
-                                    ):(
-                                        <div className={item.image.length>0?("myimage"):"d-none"}>
+                                    <div className={item.image?("myimage"):"d-none"}>
                                         <img src={`/documents/${item.image}`} alt="" />
+                                    </div>
+
+                                        <div className="date">
+                                            <label>2 Jan 2024</label>
                                         </div>
-                                    )
-                                }  
-                                <div className="date">
-                                    <label>2 Jan 2024</label>
-                                </div>
                             </div>
                         </div>
                     ) : (
                         
                         <div className="MymainConv">
                             <div className="mymessage">
-                                {
-                                    item.message.length>0?(
-                                        <div className={item.message.length>0?("mymsg"):("d-none")}>
+                                    <div className={item.message?("mymsg"):("d-none")}>
                                         <p>{item.message}</p>
                                     </div>
-                                    ):(
-                                        <div className={item.image.length>0?("myimage"):("d-none")}>
+                                    <div className={item.image?("myimage"):("d-none")}>
                                         <img src={`/documents/${item.image}`} alt="" />
                                       </div>
-                                    )
-                                }
-                          <div className="date">
-                                    <label>2 Jan 2024</label>
-                                </div>
+
+                                      <div className="date">
+                                        <label>2 Jan 2024</label>
+                                    </div>
                             </div>
                         </div>
                     )}
