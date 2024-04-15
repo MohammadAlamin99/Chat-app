@@ -43,6 +43,19 @@ io.on("connection", (socket) => {
         })
     }
    })
+// reciving image from frontend
+   socket.on("sendImage",(data)=>{
+    const user = findUserForsendMessage(data.receverId);
+    if(user!==undefined){
+        socket.to(user.socketId).emit("getMessage",{
+            senderId: data.senderId,
+            senderName: data.senderName,
+            receverId: data.receverId,
+            time: data.time,
+            image: data.image
+        })
+    } 
+   })
 
    socket.on("disconnect", ()=>{
     console.log("socket is disconnect.");

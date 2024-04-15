@@ -79,7 +79,7 @@ useEffect(()=>{
     if (socketMessage && currentFriend) {
         if (socketMessage.senderId === currentFriend._id &&
             socketMessage.receverId === senderId) {
-            console.log("socketMesg", socketMessage);
+                console.log(socketMessage)
             dispatch(setMessage([...getMessage, socketMessage]));
         }
     }
@@ -107,7 +107,7 @@ useEffect(()=>{
 const onSendMessage = async ()=>{
     let message = sendMessageRef.current.value;
     if(message.length<=0){
-        message = "❤"
+        message = ""
     }
     else{
         await MessageSend(senderId,senderName,receverId,message);
@@ -157,6 +157,15 @@ const sendImage = async (e) => {
         formData.append('image', e.target.files[0]);
         
         let result = await imageMessageSendRequest(formData);
+
+        // sending Imgae from socket server
+        socket.current.emit("sendImage",{
+            senderId : senderId,
+            senderName: senderName,
+            receverId:receverId,
+            time:new Date(),
+            image:result.data.message.image
+        })
     }
 }
 
@@ -293,12 +302,17 @@ return (
                                 <img src={currentFriend.photo} alt="" />
                             </div>
                             <div className="message">
-                                <div className={item.message.length>0?("msg"):"d-none"}>
-                                    <p>{item.message}</p>
-                                </div>
-                                {/* <div className={item.image.length>0?("myimage"):"d-none"}>
-                                <img src={`/documents/${item.image}`} alt="" />
-                                </div> */}
+                                {
+                                    item.message.length>0?(
+                                        <div className={item.message.length>0?("msg"):"d-none"}>
+                                        <p>{item.message}</p>
+                                    </div>
+                                    ):(
+                                        <div className={item.image.length>0?("myimage"):"d-none"}>
+                                        <img src={`/documents/${item.image}`} alt="" />
+                                        </div>
+                                    )
+                                }  
                                 <div className="date">
                                     <label>2 Jan 2024</label>
                                 </div>
@@ -308,13 +322,18 @@ return (
                         
                         <div className="MymainConv">
                             <div className="mymessage">
-                                <div className={item.message.length>0?("mymsg"):"d-none"}>
-                                    <p>{item.message}</p>
-                                </div>
-                                {/* <div className={item.image.length>0?("myimage"):"d-none"}>
-                                  <img src={`/documents/${item.image}`} alt="" />
-                                </div> */}
-                                <div className="date">
+                                {
+                                    item.message.length>0?(
+                                        <div className={item.message.length>0?("mymsg"):("d-none")}>
+                                        <p>{item.message}</p>
+                                    </div>
+                                    ):(
+                                        <div className={item.image.length>0?("myimage"):("d-none")}>
+                                        <img src={`/documents/${item.image}`} alt="" />
+                                      </div>
+                                    )
+                                }
+                          <div className="date">
                                     <label>2 Jan 2024</label>
                                 </div>
                             </div>
