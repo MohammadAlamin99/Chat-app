@@ -59,12 +59,12 @@ return (
                 </div>
                 <div className="btnSection">
                     <button onClick={onRegistration} className='btn mb-2'
-                        style={{background:"#7269EF", color:"white",fontFamily:"'Poppins', sans-serif",fontSize:"14px"}}>Sign
+                        style={{background:"#4eac6d", color:"white",fontFamily:"'Poppins', sans-serif",fontSize:"14px"}}>Sign
                         Up</button> <br />
                     <p style={{color:"#343A40", fontFamily:"'Poppins', sans-serif",fontSize:"14px"}}>Already have an
                         account ?
                         <span className='px-1'
-                        style={{color:"#7269EF", fontFamily:"'Poppins', sans-serif", fontSize:"14px"}}>Signin</span>
+                        style={{color:"#4eac6d", fontFamily:"'Poppins', sans-serif", fontSize:"14px"}}>Signin</span>
                     </p>
                 </div>
             </div>

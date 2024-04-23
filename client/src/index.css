@@ -122,11 +122,11 @@ border-radius:5px;
   position: absolute;
   top: 27px;
   left: 27px;
-  color: #fff;
+  color: #495057;
 }
 
 .searchSection input::placeholder {
-  color: #fff;
+  color: #495057;
   font-family: 'Poppins', sans-serif;
   font-size: 12px;
   font-weight: 400;
@@ -157,7 +157,7 @@ border-radius:5px;
 
 
 .profileSecton p{
-  color: #fff;
+  color: #495057;
   font-size: 14px;
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
@@ -192,11 +192,11 @@ border-radius:5px;
   height: 70px;
   border-radius: 50%;
   position: absolute;
-  left: 44%;
+  left: 46%;
   top: 24px;
 }
 .textSection p{
-  color: #fff;
+  color: #495057;
   font-size: 12px;
   font-family: 'Poppins', sans-serif;
   text-align: center;
@@ -208,7 +208,7 @@ border-radius:5px;
 }
 
 .message .msg p{
-  color: #fff;
+  color: #ffff;
   background: #5e5d5d;
   width: 279px;
   height: auto;
@@ -292,7 +292,7 @@ border-radius:5px;
 
 .msgInbox{
   width: auto;
-  height: 500px;
+  height: 480px;
   overflow: auto;
 }
 
@@ -314,7 +314,7 @@ border-radius:5px;
 
 
 .file label{
-  color: #fff;
+  color: #495057;
   font-size: 22px;
   margin-right: 10px;
   margin-bottom: 11px;
@@ -324,7 +324,7 @@ border-radius:5px;
   position: relative;
 }
 .picHover {
-  color: #fff;
+  color: #495057;
   font-size: 12px;
   width: 82px;
   position: absolute;
@@ -363,7 +363,7 @@ border-radius:5px;
   position: relative;
 }
 .emoji-section .emojiPicker{
-  background: #1D2737;
+  background: #fff;
 }
 
 /* right side */
@@ -377,17 +377,9 @@ border-radius:5px;
   margin-top: 14px;
 }
 
-.rightActive p{
-  color: green;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 500;
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-}
 
 .rightName p{
- color: #fff;
+ color: #495057;;
   text-align: center;
   font-size: 14px;
   font-weight: 400;
@@ -395,13 +387,13 @@ border-radius:5px;
 }
 
 .customChat p{
-  color: #fff;
+  color: #495057;;
   font-size: 14px;
   font-weight: 400;
   font-family: 'Poppins', sans-serif;
 }
 .customChat span{
-  color: #fff;
+  color: #495057;;
   font-size: 14px;
   display: flex;
 }
@@ -411,7 +403,7 @@ border-radius:5px;
   cursor: pointer;
 }
 .customChat h6{
-  color: white;
+  color: #495057;;
 
 }
 .sharedImg img{
@@ -434,16 +426,23 @@ border-radius:5px;
   display: none;
 }
 
+.text h6{
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  padding-top: 10px;
+  margin-left: 11px;
+}
 
 .activeFrndSection{
-  cursor: pointer;
-  width: 100%;
   transition: all linear .3s;
-  border-radius: 30px;
+  cursor: pointer;
 }
 
 
-.active, .activeFrndSection:hover{
-  background: rgb(25, 33, 49);
+ .active, .activeFrndSection:hover{
+  background: #4eac6d;
+  width: 100vw;
+  color: white !important;
 }
 

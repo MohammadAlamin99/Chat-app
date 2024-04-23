@@ -1,6 +1,6 @@
 import React, { useEffect,useRef,useState } from 'react';
 import RighSilde from './RighSilde';
-import { IoCall } from "react-icons/io5";
+import { IoCall, IoGitMerge } from "react-icons/io5";
 import { FaVideo } from "react-icons/fa";
 import { HiDotsCircleHorizontal } from "react-icons/hi";
 import { TbPhoto } from "react-icons/tb";
@@ -15,6 +15,8 @@ import { setFriends } from '../redux/state-slice/searchFriends-slice';
 import { getUserDetails } from '../helper/sessionHelper';
 import { setMessage } from '../redux/state-slice/getMessage-slice';
 import {io} from 'socket.io-client';
+import { IoSend } from "react-icons/io5";
+import moment from 'moment'
 
 const Home = () => {
 const [isEmoji , setIsemoji] = useState(false);
@@ -68,14 +70,6 @@ useEffect(()=>{
 
 
 useEffect(()=>{
-    // if (socketMessage && currentFriend){
-    //     if (socketMessage.senderId===currentFriend._id &&
-    //     socketMessage.receverId===senderId){
-    //         console.log("socketMesg", socketMessage)
-    //         useDispatch(setMessage([...getMessage, socketMessage]))
-    //     }
-    // }
-
     if (socketMessage && currentFriend) {
         if (socketMessage.senderId === currentFriend._id &&
             socketMessage.receverId === senderId) {
@@ -174,7 +168,7 @@ return (
         <div className="container-fluid px-0">
             <div className="row">
                 <div className="col-lg-3"
-                    style={{background:"#1D2737", height:"auto",boxShadow: "3px 3px 6px 0px #192131", zIndex:"999"}}>
+                    style={{background:"#fff", height:"auto",boxShadow: "3px 3px 6px 0px #C8C8C8", zIndex:"999"}}>
                    <div className="profileSecton">
         <div className="row">
             <div className="col-lg-9">
@@ -192,7 +186,7 @@ return (
             <div className="col-lg-12 searchSection">
                 <FaSearch className='serch' />
                 <input type="text" className="form-control px-5" id="exampleFormControlInput1" placeholder="Search"
-                    style={{color:"#fff", background:"#192131", border:"none"}} />
+                    style={{color:"#495057", background:"#fff"}} />
             </div>
 
             <div className="row">
@@ -208,11 +202,8 @@ return (
                                         </div>
                                         )
                                 })
-                            ):("No Active Friend")
-                    }
-                       
-                        
-                       
+                            ):(<p style={{textAlign:"center", fontFamily:"'Poppins', sans-serif", fontSize:"13px", color:"#495057"}}>Not active friend</p>)
+                    }  
                     </div>
 
                 </div>
@@ -220,7 +211,7 @@ return (
 
 
             <div className="row leftScroll" style={{paddingTop:"20px", height:"450px", overflowY:"scroll"}}>
-                <div className="AddScroling ">
+                <div className="AddScroling">
                     {
                         SearchFriends.length>0?(
                             SearchFriends.filter(f=>f._id!==senderId).map((item, i)=>{
@@ -228,20 +219,21 @@ return (
                                 // ami kono db er user show korai and then active use korar jonno 
                                 // currentFriedn state use korbo
                         return(
-                            <div key={i} className={currentFriend._id===item._id ?("col-lg-12 activeFrndSection d-flex active"):
-                                ("col-lg-12 activeFrndSection d-flex")} onClick={()=>setCurrentFriend(item)}>
+                            <div key={i} className={currentFriend._id===item._id ?
+                                ("col-lg-12 activeFrndSection d-flex vw-100 active mb-2"):
+                                ("col-lg-12 activeFrndSection d-flex mb-2")} onClick={()=>setCurrentFriend(item)}>
                                     <div className="img">
                                         <img src={item.photo} alt="" />
                                     </div>
                                     <div className="text">
-                                        <p>{item['userName']}</p>
+                                        <h6>{item['userName']}</h6>
                                     </div>
                             </div>
                             
                                 )
                         })
 
-                        ):( <p>No Friends</p>)
+                        ):( <p style={{textAlign:"center", fontFamily:"'Poppins', sans-serif", fontSize:"13px", color:"#495057"}}>No Friends</p>)
                     }
                 </div>
 
@@ -250,16 +242,15 @@ return (
     </div>
                 </div>
 
-                <div className={`${toggle?("col-9 p-0"):("col-6 p-0")}`} style={{boxShadow: "3px 3px 6px 0px #192131",zIndex:'1'}}>
-                    <div className="container-fluid vh-100" style={{paddingTop:"20px", background:"#1D2737"}}>
+                <div className={`${toggle?("col-9 p-0"):("col-6 p-0")}`} style={{boxShadow: "3px 3px 6px 0px #C8C8C8",zIndex:'1'}}>
+                    <div className="container-fluid vh-100" style={{paddingTop:"20px", background:"#fff"}}>
                         {
                             currentFriend?(
                                 <div className="row px-3">
-                            <div className="borderAdding d-flex">
+                            <div className="borderAdding d-flex" style={{ boxShadow: "3px 3px 6px 0px #C8C8C8"}}>
                                 <div className="col-10 p-0 profileSecton abc d-flex">
                                     <div className="img">
                                         <img src={currentFriend.photo} alt="" />
-                                        <div className="activeChat"></div>
                                     </div>
                                     <div className="text">
                                         <p>{currentFriend.userName}</p>
@@ -267,11 +258,11 @@ return (
                                 </div>
                                 <div className="col-2 p-0">
                                     <IoCall
-                                        style={{color:"#fff", marginRight:"10px", fontSize:"20px", cursor:"pointer"}} />
+                                        style={{color:"#72777C", marginRight:"10px", fontSize:"20px", cursor:"pointer"}} />
                                     <FaVideo
-                                        style={{color:"#fff", marginRight:"10px", fontSize:"20px", cursor:"pointer"}} />
+                                        style={{color:"#72777C", marginRight:"10px", fontSize:"20px", cursor:"pointer"}} />
                                     <HiDotsCircleHorizontal onClick={onClickHandler}
-                                        style={{color:"#fff", marginRight:"10px", fontSize:"20px", cursor:"pointer"}} />
+                                        style={{color:"#72777C", marginRight:"10px", fontSize:"20px", cursor:"pointer"}} />
                                 </div>
                             </div>
 
@@ -284,7 +275,7 @@ return (
                                         <div className="textSection">
                                             <p>{currentFriend.userName}</p>
                                             <p>{currentFriend.userName} is Connected</p>
-                                            <p>3 days ago</p>
+                                            <p>{moment(currentFriend.createdDate).startOf('day').fromNow()}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -307,9 +298,9 @@ return (
                                     <div className={item.image?("myimage"):"d-none"}>
                                         <img src={`/documents/${item.image}`} alt="" />
                                     </div>
-
                                         <div className="date">
-                                            <label>2 Jan 2024</label>
+                                      
+                                            <label>{moment(item.createdDate).format('lll')}</label>
                                         </div>
                             </div>
                         </div>
@@ -325,19 +316,20 @@ return (
                                       </div>
 
                                       <div className="date">
-                                        <label>2 Jan 2024</label>
+                                        <label>{moment(item.createdDate).format('lll')}</label>
                                     </div>
                             </div>
                         </div>
+               
                     )}
                 </div>
             )
         })
     ) : (
-        <p>No message</p>
+        <p style={{textAlign:"center", fontFamily:"'Poppins', sans-serif", fontSize:"13px", color:"#495057"}}>No message</p>
     )
 }                               
-                                </div>
+                            </div>
                             </div>
                             <div className="row pt-3">
                                 <div className="col-12 d-flex full">
@@ -347,16 +339,16 @@ return (
                                             Add Image
                                         </div>
                                         <label htmlFor="myFile">
-                                            <TbPhoto style={{marginBottom:"11px"}} /> </label>
+                                            <TbPhoto style={{color:"#4eac6d"}}/> </label>
                                     </div>
 
-
                                     <div className="texArea">
-                                        <input
+                                    <textarea
+                                         style={{width:"500px", height:"39px", borderRadius:"10px"}}
                                          value={inputStr}
                                          onChange={(e) => setInputStr(e.target.value)}
                                          ref={sendMessageRef} 
-                                         type="text" placeholder='Aa' name="" id="" />
+                                         type="text" placeholder='Type your message...' name="" id="" />
                                     </div>
 
                                     <div className="emoji" onClick={onEmoji}>
@@ -364,7 +356,7 @@ return (
                                     </div>
 
                                     <div className="sendFile" onClick={onSendMessage}>
-                                        ❤
+                                    <IoSend style={{marginBottom:"1px",marginLeft:"5px", color:"#4eac6d"}}/>
                                     </div>
                                     <div className="mainEmoji">
                                         <div className="emoji-section">
@@ -377,15 +369,17 @@ return (
 
                         </div>
                             ):(<p style={{textAlign:"center", 
-                            fontSize:"20px", color:"white", 
+                            fontSize:"20px", color:"#495057", 
                             fontFamily:"'Poppins', sans-serif", paddingTop:"300px"}}>No chats selected</p>)
                         }
                     </div>
                 </div>
 
 
-                <div className={`col-lg-3 ${toggle?("rightSideNone"):("")}`} style={{ background:"#1D2737"}}>
-                    <RighSilde currentFriend={currentFriend} />
+                <div className={`col-lg-3 ${toggle?("rightSideNone"):("")}`} style={{ background:"#fff"}}>
+                    <RighSilde currentFriend={currentFriend}
+                                getMessage={getMessage}
+                    />
                 </div>
             </div>
         </div>

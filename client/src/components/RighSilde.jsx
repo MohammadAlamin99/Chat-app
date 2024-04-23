@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import image from '../assets/Images/Untitled.jpg'
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { IoChevronUpOutline } from "react-icons/io5";
 const RighSilde = (props) => {
 
-    const{currentFriend} = props;
-
+    const{currentFriend, getMessage} = props;
     const [open, setOpen] = useState(false);
     const [privacy, setPrivacy] = useState(false);
     const [img, setImg] = useState(false);
@@ -24,11 +22,7 @@ const RighSilde = (props) => {
                 <div className="col-12">
                         <div className="Right-img">
                             <img src={currentFriend.photo} alt="" />
-                        </div>
-
-                        <div className="rightActive">
-                            <p>Active</p>
-                        </div>
+                        </div>              
 
                         <div className="rightName">
                             <p>{currentFriend.userName}</p>
@@ -42,7 +36,7 @@ const RighSilde = (props) => {
                                 :(<span><MdOutlineKeyboardArrowDown style={{fontSize:"18px"}}/></span>)
                                }
                             </div>
-                            {open && <h6 className='text-white'>....</h6>}
+                            {open && <h6 className='text-black'>....</h6>}
                         </div>
 
                         <div className="customChat" >
@@ -53,7 +47,7 @@ const RighSilde = (props) => {
                                 :(<span><MdOutlineKeyboardArrowDown style={{fontSize:"18px"}}/></span>)
                                }
                             </div>
-                            {privacy && <h6 className='text-white'>....</h6>}
+                            {privacy && <h6 className='text-black'>....</h6>}
                         </div>
 
 
@@ -67,30 +61,15 @@ const RighSilde = (props) => {
                             </div>
                             {img && 
                                 <div className="sharedImg">
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
-                                    <img src={image} alt="" />
+                                  {
+                                    getMessage.length>0?(
+                                        getMessage.map((item, i)=>{
+                                            return(
+                                                <img key={i} src={`/documents/${item.image}`} alt="" />
+                                            )
+                                        })
+                                    ):(<p style={{textAlign:"center", fontFamily:"'Poppins', sans-serif", fontSize:"13px", color:"#495057"}}>No Image</p>)
+                                  }
                                 </div>
                             }
                         </div>

@@ -20,12 +20,20 @@ exports.getMessage = async (req) => {
                 {senderId:myId, receverId:fdId},
                 {receverId:myId, senderId:fdId }
                ]
+               
         });
         return { status: "success", message: result };
     } catch (e) {
         return { status: "fail", message: "Something Went Wrong" };
     }
 };
+
+
+
+
+
+
+
 
 
 exports.sendImageMessage = async (req) => {
