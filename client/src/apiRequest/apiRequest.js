@@ -36,7 +36,80 @@ export async function imageMessageSendRequest(formData){
     }
 }
 
+// creat post api reqest
+export async function postCreatRequest(senderId,post,image){
+    try {
+        let reqBody = {senderId:senderId,post:post,image:image}
+        let result = await axios.post(BaseURL+'/api/v1/postCreate',reqBody,Headers);
+        let data = result.data['data']
+        return data;
+    } catch (e) {
+        return false 
+    }
+}
+export async function imagePostCreateRequest(formData){
+    try {
+        let result = await axios.post(BaseURL+'/api/v1/creatImagePost',formData,Headers);
+        return result;
+    } catch (e) {
+        return false 
+    }
+}
 
+
+export async function getPostRequest(){
+    try {
+        let result = await axios.get(BaseURL+'/api/v1/findPost',Headers);
+        let data = result.data['message']
+        return data;
+    } catch (e) {
+        return false 
+    }
+}
+// prolife post get request
+export async function getProfilePostRequest(id){
+    try {
+        let result = await axios.get(BaseURL+'/api/v1/profilePostRead/'+id,Headers);
+        let data = result.data['message']
+        return data;
+    } catch (e) {
+        return false 
+    }
+}
+// like and dislike api call
+export async function likeAndDislikeRequest(id, senderId){
+    try {
+        let reqBody = {senderId:senderId}
+        let result = await axios.put(BaseURL+'/api/v1/postLike/'+id,reqBody,Headers);
+        let data = result.data['message']
+        return data;
+    } catch (e) {
+        return false 
+    }
+}
+// comments create api request
+export async function createCommentsRequest(senderId,postId,comment){
+    try {
+        let reqBody = {senderId:senderId,postId:postId,comment:comment}
+        let result = await axios.post(BaseURL+'/api/v1/comment',reqBody,Headers);
+        let data = result.data['message']
+        return data;
+    } catch (e) {
+        return false 
+    }
+}
+
+// comments get api request
+
+export async function getCommentsRequest(id){
+    try {
+        let result = await axios.get(BaseURL+'/api/v1/readComment/'+id,Headers);
+        let data = result.data['message']
+        return data;
+    } catch (e) {
+        return false 
+    }
+}
 
 
 // get Massage api request
@@ -69,3 +142,4 @@ export async function getMessageRequiest(id){
         return false;
     }
  }
+

@@ -47,16 +47,12 @@ const lastMessageRef = useRef();
 const sendMessageRef = useRef();
 
 const socket = useRef();
-
-
 let data = getUserDetails();
 let senderId = data._id;
 let receverId = currentFriend._id;
 let senderName = data.userName;
 
-
 // useing socket io
-
 
 useEffect(()=>{
     socket.current = io('ws://localhost:8000');
@@ -65,9 +61,6 @@ useEffect(()=>{
         setSocketMessage(data)
     })
 },[])
-
-
-
 
 useEffect(()=>{
     if (socketMessage && currentFriend) {
@@ -90,11 +83,6 @@ useEffect(()=>{
         setActiveFriend(filterUser);
     })
 },[])
-
-
-
-
-
 
 
 const onSendMessage = async ()=>{
@@ -123,7 +111,6 @@ useEffect(()=>{
 },[getMessage])
 
 
-
 useEffect(()=>{
     (async()=>{
         const result = await getMessageRequiest(receverId);
@@ -132,7 +119,6 @@ useEffect(()=>{
     },[receverId]) 
 
 // emoji set up
-
 const [inputStr, setInputStr] = useState("");
 
 const onEmojiClick = (emojiObject) => {
@@ -300,7 +286,7 @@ return (
                                     </div>
                                         <div className="date">
                                       
-                                            <label>{moment(item.createdDate).format('lll')}</label>
+                                            <label>{moment(item.createdDate).format("MMM Do YY")}</label>
                                         </div>
                             </div>
                         </div>
@@ -316,7 +302,7 @@ return (
                                       </div>
 
                                       <div className="date">
-                                        <label>{moment(item.createdDate).format('lll')}</label>
+                                        <label>{moment(item.createdDate).format("MMM Do YY")}</label>
                                     </div>
                             </div>
                         </div>

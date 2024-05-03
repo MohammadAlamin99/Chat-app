@@ -6,6 +6,8 @@ import RegistrationPage from './pages/RegistrationPage';
 import Login from './components/Login';
 import Home from './components/Home';
 import { getToken } from './helper/sessionHelper';
+import NewsfeedPage from './pages/NewsfeedPage';
+import ProfilePage from './pages/ProfilePage';
 function App() {
   if(getToken()){
     return (
@@ -15,6 +17,8 @@ function App() {
                       <Route path="/" element={<Home/>}/>
                       <Route path="/registration" element={<RegistrationPage/>}/>
                       <Route path="/login" element={<Login/>}/>
+                      <Route path="/newsfeed" element={<NewsfeedPage/>}/>
+                      <Route path="/profile" element={<ProfilePage/>}/>
                   </Routes>
           </BrowserRouter>
       </>

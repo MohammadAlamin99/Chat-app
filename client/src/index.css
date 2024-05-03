@@ -446,3 +446,177 @@ border-radius:5px;
   color: white !important;
 }
 
+
+
+
+/* Newsfeed css start  */
+.news_img img{
+  width: 50px;
+  margin-right: 15px;
+  height: 50px;
+  margin-top: 8px;
+}
+
+.myProfile img{
+  height: 45px;
+  width: 45px;
+  margin-top: 6px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.news_logo{
+  padding-left: 151px;
+  margin-top: 16px;
+}
+
+.myProfile{
+  position: relative;
+}
+
+.myActive{
+  width: 15px;
+  height: 15px;
+  background: green;
+  border-radius: 50%;
+  border: 3px solid white;
+  position: absolute;
+  top: 9px;
+  left: -3px;
+}
+
+.myProfile p{
+  color: #495057;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  padding-top: 16px;
+  margin-left: 11px;
+}
+
+.logOut p{
+  color: #495057;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+}
+
+.postHead p{
+  color: #495057;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  margin-left: 11px;
+}
+.postBody{
+  position: relative;
+}
+.postBody span{
+  position: absolute;
+  color: #495057;
+  font-size: 11px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  left: 51px;
+  top: 23px;
+}
+
+.createpost p{
+  color: #000000;
+  font-size: 13px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  margin-top: 5px;
+}
+
+.like p{
+  color: #495057;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  margin-left: 3px;
+}
+.likeComment{
+  position: relative;
+}
+
+
+.commentBox{
+  width: 450px;
+  height: 280px;
+  background: #E7F3FF;
+  margin-left: 26px;
+  border-radius: 5px;
+  padding: 20px;
+  overflow: auto;
+}
+
+
+.commentBox p{
+  font-size: 13px;
+}
+.commentBox h6{
+  color: #000000;
+  font-size: 13px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+}
+
+.comment input{
+  width: 77%;
+  height: auto;
+  border: 0;
+  border-radius: 5px;
+}
+
+.postHead h6{
+
+  
+  color: #495057;
+  font-size: 11px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  margin-left: 11px;
+
+  
+}
+
+.friendArea .img img{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.contact h3{
+  color: #495057;
+  font-size: 18px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+
+/* profile page css start */
+.profileSection img{
+   width: 200px;
+   height: 200px;
+   border-radius: 10px;
+}
+
+
+.myInfo{
+  padding-top: 27px;
+  padding-left: 24px;
+}
+.myInfo h1{
+  color: #000;
+  font-size: 30px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+.myInfo h3{
+  color: #000;
+  font-size: 18px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+}

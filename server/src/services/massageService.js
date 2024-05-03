@@ -30,12 +30,6 @@ exports.getMessage = async (req) => {
 
 
 
-
-
-
-
-
-
 exports.sendImageMessage = async (req) => {
     try {
         let reqBody = req.body;
