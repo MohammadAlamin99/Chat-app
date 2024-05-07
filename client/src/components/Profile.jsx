@@ -1,8 +1,7 @@
-
-
+import Swal from 'sweetalert2'
 import React, { useEffect, useRef, useState } from 'react';
 import { TbPhoto } from "react-icons/tb";
-import { createCommentsRequest, getCommentsRequest, getPostRequest, getProfilePostRequest, imagePostCreateRequest, likeAndDislikeRequest, postCreatRequest } from '../apiRequest/apiRequest';
+import { createCommentsRequest, deletePostRequest, getCommentsRequest, getProfilePostRequest, imagePostCreateRequest, likeAndDislikeRequest, postCreatRequest} from '../apiRequest/apiRequest';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPost } from '../redux/state-slice/post-slice';
 import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
@@ -10,6 +9,9 @@ import { AiOutlineMessage } from "react-icons/ai";
 import { IoMdSend } from "react-icons/io";
 import { setComment } from '../redux/state-slice/comment-slice';
 import { getUserDetails } from '../helper/sessionHelper';
+import { MdDelete } from "react-icons/md";
+import Header from './Header';
+import { Link, NavLink } from 'react-router-dom';
 
 const Profile = () => {
     const dispatch = useDispatch();
@@ -28,7 +30,7 @@ const Profile = () => {
     const createPostHandler = async () => {
         const post = postRef.current.value;
         if (post.length !== 0) {
-            let result = await postCreatRequest(myInfo._id, post);
+            await postCreatRequest(myInfo._id, post);
             location.reload()
         }
 
@@ -40,7 +42,7 @@ const Profile = () => {
         formData.append('senderId', myInfo._id);
         formData.append('post', post);
         formData.append('image', e.target.files[0]);
-        let result = await imagePostCreateRequest(formData);
+        await imagePostCreateRequest(formData);
         location.reload()
 
     }
@@ -76,10 +78,35 @@ const Profile = () => {
             let info = await getCommentsRequest(postId);
                 dispatch(setComment(info))
         };
+
+        const deletePostHandler = async(id)=>{
+            // let result = await deletePostRequest(id, myInfo._id);
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+              }).then(async(result) => {
+                if (result.isConfirmed) {
+                    
+                  Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success"
+                  });
+                    await deletePostRequest(id, myInfo._id);
+                    window.location.reload();
+                }
+              });
+        }
+
     return (
         <div>
-
-            <div className="container-fluid pt-3">
+            <Header/>
+            <div className="container-fluid" style={{paddingTop:"80px"}}>
                 <div className="row">
                     <div className="col-lg-3"></div>
                     <div className="col-lg-6">
@@ -87,26 +114,27 @@ const Profile = () => {
             <div className="row">
                 <div className="col-lg-12 d-flex">
                     <div className="profileSection d-flex">
-                        <img src= {myInfo.photo}alt="" />
+                        <Link to={"/edit"}><img src= {myInfo.photo}alt="" /></Link>
                     </div>
                     <div className="myInfo">
-                    <h1>Mohammad Al Amin</h1>
-                        <h3>Address: kasipur</h3>
-                        <h3>Bio: I am student</h3>
+                    <h1>{myInfo.userName}</h1>
+                        <h3> {myInfo.email}</h3>
+                      <NavLink to={"/edit"}><button>Edit Profile</button> </NavLink>
                     </div>
                 </div>
                 <div className="container pt-3">
        
-            <div className="myProfile d-flex" style={{ cursor: "pointer" }}>
-                <img src={myInfo.photo} alt="" />
+            <div className="myProfile d-flex" style={{ cursor: "pointer", justifyContent:"space-between"}}>
+                <img src={myInfo.photo} alt=""/>
                 <textarea ref={postRef} type="text" placeholder='Whats on your mind?'
                     style={{ width: "450px", height: "39px", borderRadius: "10px", marginLeft: "13px", marginTop: "7px" }} />
                 <div className="file customHover">
                     <input onChange={postImgHandler} type="file" id="myFile" name="filename" />
                     <label htmlFor="myFile">
-                        <TbPhoto style={{ color: "#495057", fontSize: "37px", marginTop: "7px", marginLeft: "8px" }} /> </label>
+                        <TbPhoto style={{ color: "#41B35D", fontSize: "37px", marginTop: "7px", marginLeft: "8px"}} /> </label>
                 </div>
-                <button onClick={createPostHandler} style={{ width: "111px", height: "39px", marginTop: "6px" }} className='btn btn-success'>Post</button>
+                <button onClick={createPostHandler} 
+            style={{ width: "72px", height: "39px", marginTop: "8px", background:"#26B7D4", color:"white", borderRadius:"7px", border:"none"}}>Post</button>
             </div>
 
             {getPost.length > 0 ? (
@@ -117,12 +145,15 @@ const Profile = () => {
                             <div className="postHead d-flex mt-2">
                                 <img style={{ width: "40px", height: "40px", borderRadius: "50%" }} src={item.senderInfo.photo} alt="" />
                                 <p> {item.senderInfo.userName}</p>
+                                <MdDelete style={{cursor:"pointer", fontSize:"19px", marginLeft:"15px", marginTop:"3px", color:"#E42645"}} onClick={()=> deletePostHandler(item._id)}/>
                             </div>
                             <div className="createpost">
                                 <p>{item.post}</p>
                             </div>
                             <span>1 min ago</span>
-                            <img style={{ width: "488px", borderRadius: "5px", marginTop: "2px", cursor: "pointer", marginLeft: "5px", height: "auto", marginBottom: "7px" }} src={`/documents/${item.image}`} alt="" />
+                                {/* delete post */}
+
+                            <img style={{ width: "100%", borderRadius: "5px", marginTop: "2px", cursor: "pointer", marginLeft: "5px", height: "auto", marginBottom: "7px" }} src={`/documents/${item.image}`} alt="" />
                             <div className="likeComment d-flex" style={{ marginTop: "8px" }}>
                                 <div onClick={() => LikeHandler(item._id)} className="like d-flex" style={{ cursor: "pointer", marginRight: "13px" }}>
                                     {isLiked ? <IoIosHeart style={{ color: "red", fontSize: "25px" }} /> : <IoIosHeartEmpty style={{ color: "#495057", fontSize: "25px" }} />}

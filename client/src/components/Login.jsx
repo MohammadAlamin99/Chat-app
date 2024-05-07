@@ -1,8 +1,9 @@
 import React, { useRef } from 'react';
 import { CiLock, CiMail } from "react-icons/ci";
-import toast, { Toaster } from 'react-hot-toast';
 import { LoginRequest } from '../apiRequest/apiRequest';
 import { setToken, setUserDetails } from '../helper/sessionHelper';
+import toast, { Toaster } from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 const Login = () => {
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -46,9 +47,9 @@ const Login = () => {
                         </div>
                             <div className="btnSection">
                                 
-                        <button onClick={onLogin} className='btn mb-2' style={{background:"#4eac6d", color:"white",fontFamily:"'Poppins', sans-serif",fontSize:"14px",width:"68%"}}>Sign In</button> <br />
+                        <button onClick={onLogin} className='btn mb-2' style={{background:"#26B7D4", color:"white",fontFamily:"'Poppins', sans-serif",fontSize:"14px",width:"68%"}}>Sign In</button> <br />
                             <p style={{color:"#343A40", fontFamily:"'Poppins', sans-serif",fontSize:"14px"}}>Don't have an account ? 
-                            <span className='px-1' style={{color:"#4eac6d", fontFamily:"'Poppins', sans-serif", fontSize:"14px", cursor:"pointer"}}>Signup now</span></p>
+                            <Link to={"/registration"} style={{textDecoration:"none"}}><span className='px-1' style={{color:"#26B7D4", fontFamily:"'Poppins', sans-serif", fontSize:"14px", cursor:"pointer"}}>Signup now</span></Link></p>
                      
                             </div>
 

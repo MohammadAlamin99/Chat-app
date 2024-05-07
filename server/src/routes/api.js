@@ -8,9 +8,9 @@ const upload = require("../middleware/upload");
 const router = express.Router();
 
 
-
-
 router.post("/registration", usersController.registration);
+router.post("/profileUpdate",authVerificationMiddleware, usersController.profileUpdate);
+router.get("/userDetails",authVerificationMiddleware, usersController.userDetails);
 router.post("/login", usersController.login);
 router.get("/userFriends",authVerificationMiddleware, usersController.userFriends);
 router.post("/message",authVerificationMiddleware,massageController.message);

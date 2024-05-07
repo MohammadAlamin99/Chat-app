@@ -290,6 +290,7 @@ border-radius:5px;
 }
 
 
+
 .msgInbox{
   width: auto;
   height: 480px;
@@ -427,6 +428,7 @@ border-radius:5px;
 }
 
 .text h6{
+  color: #000;
   font-size: 14px;
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
@@ -441,7 +443,7 @@ border-radius:5px;
 
 
  .active, .activeFrndSection:hover{
-  background: #4eac6d;
+  background: #E7F3FF;
   width: 100vw;
   color: white !important;
 }
@@ -450,12 +452,14 @@ border-radius:5px;
 
 
 /* Newsfeed css start  */
+
 .news_img img{
-  width: 50px;
+  width: 45px;
   margin-right: 15px;
-  height: 50px;
-  margin-top: 8px;
+  height: 45px;
+  margin-top: 11px;
 }
+
 
 .myProfile img{
   height: 45px;
@@ -466,8 +470,18 @@ border-radius:5px;
 }
 
 .news_logo{
-  padding-left: 151px;
-  margin-top: 16px;
+  padding-left: 11px;
+  margin-top: 18px;
+}
+.news_logo a .home{
+  color: #495057;
+  font-size: 29px;
+  cursor: pointer;
+  margin-left: 129px;
+  transition: all linear .3s;
+}
+.news_logo a .home:hover{
+ color: #26B7D4;
 }
 
 .myProfile{
@@ -486,7 +500,7 @@ border-radius:5px;
 }
 
 .myProfile p{
-  color: #495057;
+  color: #000000;
   font-size: 16px;
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
@@ -495,14 +509,14 @@ border-radius:5px;
 }
 
 .logOut p{
-  color: #495057;
+  color: #000000;
   font-size: 16px;
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
 }
 
 .postHead p{
-  color: #495057;
+  color: #000000;
   font-size: 16px;
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
@@ -619,4 +633,43 @@ border-radius:5px;
   font-size: 18px;
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
+}
+
+.myInfo button{
+  border: 0;
+  width: 95px;
+  height: 40px;
+  background: #29B8D4;
+  border-radius: 5px;
+  color: white;
+  transition: all linear .3s;
+}
+
+.myInfo button:hover{
+  background: #2599b1;;
+}
+
+
+/* edit Profile css start */
+
+.profileInside label{
+  color: #000;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+}
+
+.ProfileUpdateBtn button{
+  background: #26B7D4;
+  border: 0;
+  padding: 8px;
+  margin-top: 23px;
+  color: white;
+  transition: all linear .3s;
+}
+.ProfileUpdateBtn button:hover{
+  background: #1d9eb8;
+}
+.profileInside img{
+  border-radius: 5px;
 }

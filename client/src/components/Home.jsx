@@ -1,6 +1,6 @@
 import React, { useEffect,useRef,useState } from 'react';
 import RighSilde from './RighSilde';
-import { IoCall, IoGitMerge } from "react-icons/io5";
+import { IoCall } from "react-icons/io5";
 import { FaVideo } from "react-icons/fa";
 import { HiDotsCircleHorizontal } from "react-icons/hi";
 import { TbPhoto } from "react-icons/tb";
@@ -17,6 +17,7 @@ import { setMessage } from '../redux/state-slice/getMessage-slice';
 import {io} from 'socket.io-client';
 import { IoSend } from "react-icons/io5";
 import moment from 'moment'
+import { Link } from 'react-router-dom';
 
 const Home = () => {
 const [isEmoji , setIsemoji] = useState(false);
@@ -158,10 +159,12 @@ return (
                    <div className="profileSecton">
         <div className="row">
             <div className="col-lg-9">
-                <div className="img d-flex">
+               <Link to={"/"} style={{textDecoration:"none"}}>
+               <div className="img d-flex">
                     <img src="https://img.freepik.com/free-icon/share_318-197141.jpg" alt="" />
                     <p>Social Media</p>
                 </div>
+                </Link>
             </div>
             <div className="col-lg-3" style={{color:"#fff", fontSize:"20px"}}>
                 <PiDotsThreeCircleFill style={{cursor:"pointer", marginRight:"7px"}} />

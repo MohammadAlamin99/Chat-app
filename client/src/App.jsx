@@ -8,17 +8,19 @@ import Home from './components/Home';
 import { getToken } from './helper/sessionHelper';
 import NewsfeedPage from './pages/NewsfeedPage';
 import ProfilePage from './pages/ProfilePage';
+import EditProfile from './components/EditProfile';
 function App() {
   if(getToken()){
     return (
       <>
         <BrowserRouter>
                   <Routes>
-                      <Route path="/" element={<Home/>}/>
+                      <Route path="/" element={<NewsfeedPage/>}/>
+                      <Route path="/message" element={<Home/>}/>
                       <Route path="/registration" element={<RegistrationPage/>}/>
                       <Route path="/login" element={<Login/>}/>
-                      <Route path="/newsfeed" element={<NewsfeedPage/>}/>
                       <Route path="/profile" element={<ProfilePage/>}/>
+                      <Route path="/edit" element={<EditProfile/>}/>
                   </Routes>
           </BrowserRouter>
       </>
@@ -30,7 +32,7 @@ function App() {
       <>
         <BrowserRouter>
                   <Routes>
-                      <Route path="/" element={<Navigate to="/login" replace/>}/>
+                      <Route path="/" element={<Navigate to="/login" replace></Navigate>}/> 
                       <Route path="/registration" element={<RegistrationPage/>}/>
                       <Route path="/login" element={<Login/>}/>
                   </Routes>

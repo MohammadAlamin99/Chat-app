@@ -1,7 +1,7 @@
 
 
 import React, { useEffect, useRef, useState } from 'react';
-import { TbPhoto } from "react-icons/tb";
+import { IoMdPhotos } from "react-icons/io";
 import { createCommentsRequest, getCommentsRequest, getPostRequest, imagePostCreateRequest, likeAndDislikeRequest, postCreatRequest } from '../apiRequest/apiRequest';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPost } from '../redux/state-slice/post-slice';
@@ -9,7 +9,7 @@ import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
 import { AiOutlineMessage } from "react-icons/ai";
 import { IoMdSend } from "react-icons/io";
 import { setComment } from '../redux/state-slice/comment-slice';
-
+import toast, { Toaster } from 'react-hot-toast';
 
 const NewsfeedHome = (props) => {
     const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const NewsfeedHome = (props) => {
     const createPostHandler = async () => {
         const post = postRef.current.value;
         if (post.length !== 0) {
-            let result = await postCreatRequest(myInfo._id, post);
+            await postCreatRequest(myInfo._id, post);
             location.reload()
         }
 
@@ -80,16 +80,17 @@ const NewsfeedHome = (props) => {
 
     return (
         <div>
-            <div className="myProfile d-flex" style={{ cursor: "pointer" }}>
+            <div className="myProfile d-flex" style={{ cursor: "pointer",justifyContent:"space-between"}}>
                 <img src={myInfo.photo} alt="" />
                 <textarea ref={postRef} type="text" placeholder='Whats on your mind?'
-                    style={{ width: "450px", height: "39px", borderRadius: "10px", marginLeft: "13px", marginTop: "7px" }} />
+                    style={{ width: "400px", height: "45px", borderRadius: "10px", marginLeft: "13px", marginTop: "7px" }} />
                 <div className="file customHover">
                     <input onChange={postImgHandler} type="file" id="myFile" name="filename" />
                     <label htmlFor="myFile">
-                        <TbPhoto style={{ color: "#495057", fontSize: "37px", marginTop: "7px", marginLeft: "8px" }} /> </label>
+                        <IoMdPhotos  style={{ color: "#41B35D", fontSize: "37px", marginTop: "9px", marginLeft: "8px" }} /> </label>
                 </div>
-                <button onClick={createPostHandler} style={{ width: "111px", height: "39px", marginTop: "6px" }} className='btn btn-success'>Create post</button>
+                <button onClick={createPostHandler} 
+            style={{ width: "72px", height: "39px", marginTop: "8px", background:"#26B7D4", color:"white", borderRadius:"7px", border:"none"}}>Post</button>
             </div>
 
             {getPost.length > 0 ? (
@@ -105,7 +106,7 @@ const NewsfeedHome = (props) => {
                                 <p>{item.post}</p>
                             </div>
                             <span>1 min ago</span>
-                            <img style={{ width: "488px", borderRadius: "5px", marginTop: "2px", cursor: "pointer", marginLeft: "5px", height: "auto", marginBottom: "7px" }} src={`/documents/${item.image}`} alt="" />
+                            <img style={{ width: "100%", borderRadius: "5px", marginTop: "2px", cursor: "pointer", marginLeft: "5px", height: "auto", marginBottom: "7px" }} src={`/documents/${item.image}`} alt="" />
                             <div className="likeComment d-flex" style={{ marginTop: "8px" }}>
                                 <div onClick={() => LikeHandler(item._id)} className="like d-flex" style={{ cursor: "pointer", marginRight: "13px" }}>
                                     {isLiked ? <IoIosHeart style={{ color: "red", fontSize: "25px" }} /> : <IoIosHeartEmpty style={{ color: "#495057", fontSize: "25px" }} />}
@@ -133,7 +134,7 @@ const NewsfeedHome = (props) => {
                                         <div className="comment mt-1 mb-2">
                                             <h6>{item.comment}</h6>
                                         </div>
-                                                      </div>  
+                                            </div>  
                                                     )
                                                 })
                                             ):("no comment")
@@ -149,7 +150,12 @@ const NewsfeedHome = (props) => {
                     )
                 })
             ) : ("No post available")}
+             <Toaster 
+                        position="bottom-center"
+                        reverseOrder={false}
+                        />
         </div>
+        
     );
 };
 

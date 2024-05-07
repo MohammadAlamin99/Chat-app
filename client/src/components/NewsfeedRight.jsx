@@ -7,8 +7,8 @@ import { getUserDetails } from '../helper/sessionHelper';
 const NewsfeedRight = () => {
 
     let data = getUserDetails();
-let senderId = data._id;
-let senderName = data.userName;
+    let senderId = data._id;
+    let senderName = data.userName;
 
 
     useEffect(()=>{
@@ -18,11 +18,10 @@ let senderName = data.userName;
         })()
     },[0])
     const SearchFriends = useSelector((state)=>state.searching.friends);
-    console.log(SearchFriends)
     const dispatch = useDispatch();
     return (
         <>
-                <div className="contact">
+                <div className="contact"style={{position:"fixed"}}>
                 <h3>Contact</h3>
                     {
                         SearchFriends.length>0?(

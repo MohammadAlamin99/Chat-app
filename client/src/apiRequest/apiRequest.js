@@ -76,6 +76,50 @@ export async function getProfilePostRequest(id){
         return false 
     }
 }
+// Update post request
+
+export async function postUpdateRequest(id, senderId, post){
+    try {
+        let reqBody = {senderId:senderId, post:post}
+        let result = await axios.get(BaseURL+'/api/v1/postUpdate/'+id,reqBody,Headers);
+        return result;
+    } catch (e) {
+        return false 
+    }
+}
+// Post delete request
+
+export async function deletePostRequest(id, senderId){
+    try {
+        let result = await axios.delete(BaseURL+'/api/v1/postDelete/'+id+'/'+senderId,Headers);
+        return data;
+    } catch (e) {
+        return false 
+    }
+}
+
+// update profile
+export async function updateProfileRequest(email,userName,password,photo){
+    try {
+        let reqBody = {email:email, userName:userName, password:password, photo:photo}
+        let result = await axios.post(BaseURL+'/api/v1/profileUpdate',reqBody,Headers);
+        return result;
+    } catch (e) {
+        return false 
+    }
+}
+// get user details
+export async function userDetailsRequest(){
+    try {
+        let result = await axios.get(BaseURL+'/api/v1/userDetails',Headers);
+        let data = result.data['data']
+        return data;
+    } catch (e) {
+        return false 
+    }
+}
+
+
 // like and dislike api call
 export async function likeAndDislikeRequest(id, senderId){
     try {
@@ -115,7 +159,7 @@ export async function getCommentsRequest(id){
 // get Massage api request
 export async function getMessageRequiest(id){
     try {
-        let result = await axios.get(BaseURL+'/api/v1/getMessage/'+id, Headers);
+        let result = await axios.get(BaseURL+'/api/v1/getMessage/'+id,Headers);
         let data = result.data['message'];
         return data;
     } catch (e) {
