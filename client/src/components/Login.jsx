@@ -49,7 +49,7 @@ const Login = () => {
                     <div className="col-lg-12 p-0 justify-content-center">  
                    <div className="form text-center">
                         <h1>Sign In</h1>
-                        <p>Sign in to continue to Chat App.</p>
+                        <p>Sign in to continue to Share Media.</p>
                         <CiMail style={{marginRight:"8px",  fontSize:"19px"}}/>
                         <input ref={emailRef} type="text" placeholder='Enter your email' /> <br />
 

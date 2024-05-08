@@ -58,7 +58,7 @@ return (
             <div className="col-lg-12 p-0 justify-content-center">
                 <div className="form text-center">
                     <h1>Sign Up</h1>
-                    <p>Get your Chat App account now.</p>
+                    <p>Get your Share Media account now.</p>
                     <CiUser style={{marginRight:"8px", fontSize:"19px"}}/>
                     <input ref={usernameRef} type="text" placeholder='Enter username' /> <br />
 

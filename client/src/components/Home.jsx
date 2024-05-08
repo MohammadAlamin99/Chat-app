@@ -174,7 +174,7 @@ return (
                <Link to={"/"} style={{textDecoration:"none"}}>
                <div className="img d-flex">
                     <img src="https://img.freepik.com/free-icon/share_318-197141.jpg" alt="" />
-                    <p>Social Media</p>
+                    <p>Share Media</p>
                 </div>
                 </Link>
             </div>
