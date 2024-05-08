@@ -94,13 +94,7 @@ exports.updatePost = async (req, res)=>{
 exports.likePost = async (req, res) => {
     try {
         const post = await createPostModel.findById(req.params.id);
-        if (!post) {
-            return({status:"fail", message:"Not work"});;
-        }
         const senderId = req.body.senderId;
-        if (!senderId) {
-            return({status:"fail", message:"need sender iD"});
-        }
         const liked = post.like.includes(senderId);
         if (!liked) {
             await createPostModel.findByIdAndUpdate(req.params.id, { $push: { like: senderId } });

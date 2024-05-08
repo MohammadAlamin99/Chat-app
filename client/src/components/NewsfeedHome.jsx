@@ -9,8 +9,8 @@ import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
 import { AiOutlineMessage } from "react-icons/ai";
 import { IoMdSend } from "react-icons/io";
 import { setComment } from '../redux/state-slice/comment-slice';
-import toast, { Toaster } from 'react-hot-toast';
-
+import BarLoader  from "react-spinners/BarLoader";
+import moment from 'moment'
 const NewsfeedHome = (props) => {
     const dispatch = useDispatch();
     const getPost = useSelector((state) => state.getPost.post);
@@ -18,10 +18,13 @@ const NewsfeedHome = (props) => {
     const { myInfo } = props;
     const postRef = useRef();
     const [showCommentBox, setShowCommentBox] = useState({}); 
+    const [loader, setLoader] = useState(false);
 
     useEffect(() => {
         (async () => {
+            setLoader(true)
             let result = await getPostRequest();
+            setLoader(false)
             dispatch(setPost(result))
         })()
     }, [])
@@ -29,7 +32,9 @@ const NewsfeedHome = (props) => {
     const createPostHandler = async () => {
         const post = postRef.current.value;
         if (post.length !== 0) {
+            setLoader(true)
             await postCreatRequest(myInfo._id, post);
+            setLoader(false)
             location.reload()
         }
 
@@ -41,7 +46,9 @@ const NewsfeedHome = (props) => {
         formData.append('senderId', myInfo._id);
         formData.append('post', post);
         formData.append('image', e.target.files[0]);
-        let result = await imagePostCreateRequest(formData);
+        setLoader(true)
+        await imagePostCreateRequest(formData);
+        setLoader(false)
         location.reload()
 
     }
@@ -79,7 +86,16 @@ const NewsfeedHome = (props) => {
         };
 
     return (
-        <div>
+        <>
+            {
+                loader?(
+                    <BarLoader
+                    color="#26B7D4"
+                    height={4}
+                    width={650}
+                    />
+                ):(
+                    <div>
             <div className="myProfile d-flex" style={{ cursor: "pointer",justifyContent:"space-between"}}>
                 <img src={myInfo.photo} alt="" />
                 <textarea ref={postRef} type="text" placeholder='Whats on your mind?'
@@ -105,7 +121,7 @@ const NewsfeedHome = (props) => {
                             <div className="createpost">
                                 <p>{item.post}</p>
                             </div>
-                            <span>1 min ago</span>
+                            <span>{moment(item.createdDate).format('LL')}</span>
                             <img style={{ width: "100%", borderRadius: "5px", marginTop: "2px", cursor: "pointer", marginLeft: "5px", height: "auto", marginBottom: "7px" }} src={`/documents/${item.image}`} alt="" />
                             <div className="likeComment d-flex" style={{ marginTop: "8px" }}>
                                 <div onClick={() => LikeHandler(item._id)} className="like d-flex" style={{ cursor: "pointer", marginRight: "13px" }}>
@@ -128,7 +144,7 @@ const NewsfeedHome = (props) => {
                                             <img style={{ width: "30px", height: "30px", borderRadius: "50%" }} src={item.senderInfo.photo} alt="" />
                                            <div className="namandTime">
                                            <p className='mb-0'>{item.senderInfo.userName}</p>
-                                            <h6>1 min ago</h6>
+                                            <h6>{moment(item.createdDate).format('LL')}</h6>
                                            </div>
                                         </div>
                                         <div className="comment mt-1 mb-2">
@@ -150,11 +166,11 @@ const NewsfeedHome = (props) => {
                     )
                 })
             ) : ("No post available")}
-             <Toaster 
-                        position="bottom-center"
-                        reverseOrder={false}
-                        />
+
         </div>
+                )
+            }
+        </>
         
     );
 };

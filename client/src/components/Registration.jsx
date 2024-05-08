@@ -1,11 +1,13 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link, useNavigate } from "react-router-dom";
 import { CiUser } from "react-icons/ci";
 import { CiMail } from "react-icons/ci";
 import { CiLock } from "react-icons/ci";
 import { RegestrationRequest } from '../apiRequest/apiRequest';
+import BarLoader  from "react-spinners/BarLoader";
 const Registration = () => {
+    const [loader, setLoader] = useState(false);
     const usernameRef = useRef();
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -27,7 +29,9 @@ const Registration = () => {
             toast.error("Password Required !")
         }
         else{
+            setLoader(true)
             const res = await RegestrationRequest(userName, email, password, photo);
+            setLoader(false)
             console.log(res)
             if(res.data.status==="success"){
                 toast.success(res['data']['message']);
@@ -41,7 +45,15 @@ const Registration = () => {
     
 return (
 <div>
-    <div className="container">
+    {
+        loader?(
+            <BarLoader
+            color="#26B7D4"
+            height={4}
+            width={2000}
+            />
+        ):(
+            <div className="container">
         <div className="row">
             <div className="col-lg-12 p-0 justify-content-center">
                 <div className="form text-center">
@@ -74,6 +86,8 @@ return (
         />
         </div>
     </div>
+        )
+    }
 </div>
 );
 };

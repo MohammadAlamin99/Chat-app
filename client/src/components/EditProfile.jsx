@@ -2,14 +2,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import { getUserDetails, setUserDetails } from '../helper/sessionHelper';
 import { updateProfileRequest, userDetailsRequest } from '../apiRequest/apiRequest';
 import Header from './Header';
+import BarLoader  from "react-spinners/BarLoader";
 const EditProfile = () => {
   const emailRef = useRef();
   const userNameRef = useRef();
   const passwordRef = useRef();
   const photoRef = useRef();
-
+  const [loader, setLoader] = useState(false);
   const userInfo = getUserDetails();
-
+  const [data, setData] = useState({});
+  
   const [previewImage, setPreviewImage] = useState(null); 
   const updateHandler = async () => {
     const userName = userNameRef.current.value;
@@ -21,7 +23,9 @@ const EditProfile = () => {
       photo = await convertToBase64(photoRef.current.files[0]);
     }
 
-    let result = await updateProfileRequest(email, userName, password, photo);
+    setLoader(true)
+    await updateProfileRequest(email, userName, password, photo);
+    setLoader(false)
     setUserDetails({ ...userInfo, userName, email, photo });
     window.location.href="/profile"
   }
@@ -35,14 +39,14 @@ const EditProfile = () => {
     });
   };
 
-  const [data, setData] = useState({});
+ 
 
   useEffect(()=>{
     (async()=>{
       let result = await userDetailsRequest();
       setData(result[0])
     })()
-  },[])
+  },[0])
 
   const handleChangeImg = (e) => {
     const file = e.target.files[0];
@@ -59,7 +63,17 @@ const EditProfile = () => {
   return (
     <div>
         <Header/>
-      <div className="container" style={{paddingTop:"90px"}}>
+      {
+        loader?(
+          <BarLoader
+          color="#26B7D4"
+          height={4}
+          width={650}
+          />
+        ):(
+
+          
+          <div className="container" style={{paddingTop:"90px"}}>
         <div className="row d-flex justify-content-center">
           <div className="col-md-12">
             <div className="card">
@@ -96,6 +110,8 @@ const EditProfile = () => {
           </div>
         </div>
       </div>
+        )
+      }
     </div>
   );
 };

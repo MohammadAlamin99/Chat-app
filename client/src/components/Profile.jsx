@@ -12,6 +12,8 @@ import { getUserDetails } from '../helper/sessionHelper';
 import { MdDelete } from "react-icons/md";
 import Header from './Header';
 import { Link, NavLink } from 'react-router-dom';
+import BarLoader  from "react-spinners/BarLoader";
+import moment from 'moment'
 
 const Profile = () => {
     const dispatch = useDispatch();
@@ -20,9 +22,12 @@ const Profile = () => {
     const myInfo = getUserDetails()
     const postRef = useRef();
     const [showCommentBox, setShowCommentBox] = useState({}); 
+    const [loader, setLoader] = useState(false);
     useEffect(() => {
         (async () => {
+            setLoader(true)
             let result = await getProfilePostRequest(myInfo._id);
+            setLoader(false)
             dispatch(setPost(result))
         })()
     }, [])
@@ -30,7 +35,9 @@ const Profile = () => {
     const createPostHandler = async () => {
         const post = postRef.current.value;
         if (post.length !== 0) {
+            setLoader(true)
             await postCreatRequest(myInfo._id, post);
+            setLoader(false)
             location.reload()
         }
 
@@ -42,14 +49,18 @@ const Profile = () => {
         formData.append('senderId', myInfo._id);
         formData.append('post', post);
         formData.append('image', e.target.files[0]);
+        setLoader(true)
         await imagePostCreateRequest(formData);
+        setLoader(false)
         location.reload()
 
     }
 
     const LikeHandler = async (postId) => {
         await likeAndDislikeRequest(postId, myInfo._id);
+        setLoader(true)
         let result = await getProfilePostRequest(myInfo._id);
+        setLoader(false)
         dispatch(setPost(result))
     }
 
@@ -73,14 +84,13 @@ const Profile = () => {
 
         const commentHandler = async (postId)=>{
             const comment = commentRef.current.value;
-            let result = await createCommentsRequest(myInfo._id, postId, comment);
+            await createCommentsRequest(myInfo._id, postId, comment);
             // get comment request
             let info = await getCommentsRequest(postId);
                 dispatch(setComment(info))
         };
 
         const deletePostHandler = async(id)=>{
-            // let result = await deletePostRequest(id, myInfo._id);
             Swal.fire({
                 title: "Are you sure?",
                 text: "You won't be able to revert this!",
@@ -97,14 +107,25 @@ const Profile = () => {
                     text: "Your file has been deleted.",
                     icon: "success"
                   });
+                    setLoader(true)
                     await deletePostRequest(id, myInfo._id);
                     window.location.reload();
+                    setLoader(false)
                 }
               });
         }
 
     return (
-        <div>
+        <>
+            {
+                loader?(
+                    <BarLoader
+                    color="#26B7D4"
+                    height={4}
+                    width={2000}
+                    />
+                ):(
+                    <div>
             <Header/>
             <div className="container-fluid" style={{paddingTop:"80px"}}>
                 <div className="row">
@@ -150,7 +171,7 @@ const Profile = () => {
                             <div className="createpost">
                                 <p>{item.post}</p>
                             </div>
-                            <span>1 min ago</span>
+                            <span>{moment(item.createdDate).format('LL')}</span>
                                 {/* delete post */}
 
                             <img style={{ width: "100%", borderRadius: "5px", marginTop: "2px", cursor: "pointer", marginLeft: "5px", height: "auto", marginBottom: "7px" }} src={`/documents/${item.image}`} alt="" />
@@ -175,7 +196,7 @@ const Profile = () => {
                                             <img style={{ width: "30px", height: "30px", borderRadius: "50%" }} src={item.senderInfo.photo} alt="" />
                                            <div className="namandTime">
                                            <p className='mb-0'>{item.senderInfo.userName}</p>
-                                            <h6>1 min ago</h6>
+                                            <h6>{moment(item.createdDate).format('LL')}</h6>
                                            </div>
                                         </div>
                                         <div className="comment mt-1 mb-2">
@@ -209,6 +230,9 @@ const Profile = () => {
 
           
         </div>
+                )
+            }
+        </>
     );
 };
 

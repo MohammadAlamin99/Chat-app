@@ -3,6 +3,7 @@ import { IoIosLogOut } from "react-icons/io";
 import { PiChatCircleText } from "react-icons/pi";
 import { RiSettings3Line } from "react-icons/ri";
 import { Link } from 'react-router-dom';
+
 const NewsfeedLeft = (props) => {
     const{myInfo} = props;
 

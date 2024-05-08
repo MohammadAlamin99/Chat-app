@@ -1,13 +1,14 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { CiLock, CiMail } from "react-icons/ci";
 import { LoginRequest } from '../apiRequest/apiRequest';
 import { setToken, setUserDetails } from '../helper/sessionHelper';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import BarLoader  from "react-spinners/BarLoader";
 const Login = () => {
     const emailRef = useRef();
     const passwordRef = useRef();
-
+    const [loader, setLoader] = useState(false);
     const onLogin = async ()=>{
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
@@ -19,7 +20,9 @@ const Login = () => {
             toast.error("Password Required !")
         }
         else{
+            setLoader(true)
             const res = await LoginRequest(email, password);
+            setLoader(false)
             if(res['data']['status']==="success"){
                 setToken(res['data']['token']);
                 setUserDetails(res.data['data'])
@@ -33,7 +36,15 @@ const Login = () => {
     }
     return (
         <div>
-            <div className="container">
+           {
+            loader?(
+                <BarLoader
+                color="#26B7D4"
+                height={4}
+                width={2000}
+                />
+            ):(
+ <div className="container">
                 <div className="row">
                     <div className="col-lg-12 p-0 justify-content-center">  
                    <div className="form text-center">
@@ -60,6 +71,8 @@ const Login = () => {
                         reverseOrder={false}
                         />
                     </div>
+            )
+           }
                 </div>
            
     );

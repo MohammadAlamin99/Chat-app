@@ -18,8 +18,10 @@ import {io} from 'socket.io-client';
 import { IoSend } from "react-icons/io5";
 import moment from 'moment'
 import { Link } from 'react-router-dom';
+import BarLoader  from "react-spinners/BarLoader";
 
 const Home = () => {
+    const [loader, setLoader] = useState(false);
 const [isEmoji , setIsemoji] = useState(false);
 const [toggle, setToggle] = useState(true);
 const [activeFriend, setActiveFriend] = useState([])
@@ -39,7 +41,9 @@ const [socketMessage, setSocketMessage] = useState("");
 
 useEffect(()=>{
 (async()=>{
+    setLoader(true);
     const result = await SearchingFriends();
+    setLoader(false)
     dispatch(setFriends(result))
 })()
 },[0])
@@ -151,7 +155,15 @@ const sendImage = async (e) => {
 
 return (
 <div>
-    <div className="leftSiteSection">
+   {
+    loader?(
+        <BarLoader
+        color="#26B7D4"
+        height={4}
+        width={2000}
+        />
+    ):(
+        <div className="leftSiteSection">
         <div className="container-fluid px-0">
             <div className="row">
                 <div className="col-lg-3"
@@ -373,6 +385,8 @@ return (
             </div>
         </div>
     </div>
+    )
+   }
 </div>
 );
 };
