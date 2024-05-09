@@ -8,7 +8,6 @@ import Home from './components/Home';
 import { getToken } from './helper/sessionHelper';
 import NewsfeedPage from './pages/NewsfeedPage';
 import ProfilePage from './pages/ProfilePage';
-import EditProfile from './components/EditProfile';
 function App() {
   if(getToken()){
     return (
@@ -20,7 +19,6 @@ function App() {
                       <Route path="/registration" element={<RegistrationPage/>}/>
                       <Route path="/login" element={<Login/>}/>
                       <Route path="/profile" element={<ProfilePage/>}/>
-                      <Route path="/edit" element={<EditProfile/>}/>
                   </Routes>
           </BrowserRouter>
       </>

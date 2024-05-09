@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2'
 import React, { useEffect, useRef, useState } from 'react';
 import { TbPhoto } from "react-icons/tb";
-import { createCommentsRequest, deletePostRequest, getCommentsRequest, getProfilePostRequest, imagePostCreateRequest, likeAndDislikeRequest, postCreatRequest} from '../apiRequest/apiRequest';
+import { createCommentsRequest, deletePostRequest, getCommentsRequest, getProfilePostRequest, imagePostCreateRequest, likeAndDislikeRequest, postCreatRequest, updateProfileRequest} from '../apiRequest/apiRequest';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPost } from '../redux/state-slice/post-slice';
 import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
@@ -14,6 +14,7 @@ import Header from './Header';
 import { Link, NavLink } from 'react-router-dom';
 import BarLoader  from "react-spinners/BarLoader";
 import moment from 'moment'
+import { ImCamera } from "react-icons/im";
 
 const Profile = () => {
     const dispatch = useDispatch();
@@ -114,6 +115,19 @@ const Profile = () => {
                 }
               });
         }
+        const photoRef = useRef();
+
+        // profile changeing
+        const updateHandler = async () => {
+            let photo = photoRef.current.files[0];
+        
+        
+              const formData = new FormData();
+              formData.append('photo', photo);
+              
+              let result = await updateProfileRequest(formData);
+             window.location.reload()
+          }
 
     return (
         <>
@@ -135,12 +149,16 @@ const Profile = () => {
             <div className="row">
                 <div className="col-lg-12 d-flex">
                     <div className="profileSection d-flex">
-                        <Link to={"/edit"}><img src= {myInfo.photo}alt="" /></Link>
+                        <img  src={`/documents/${myInfo.photo}`}alt="" />
                     </div>
                     <div className="myInfo">
-                    <h1>{myInfo.userName}</h1>
-                        <h3> {myInfo.email}</h3>
-                      <NavLink to={"/edit"}><button>Edit Profile</button> </NavLink>
+                        <h1>{myInfo.userName}</h1>
+                            <h3> {myInfo.email}</h3>
+                        <input ref={photoRef} onChange={updateHandler} type="file" id="myFile" name="filename"/>
+
+                        <label htmlFor="myFile">
+                        <ImCamera style={{marginBottom:"8px", marginLeft:"6px"}}/>
+                        </label>
                     </div>
                 </div>
                 <div className="container pt-3">

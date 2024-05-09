@@ -29,7 +29,7 @@ const NewsfeedRight = () => {
                         return(
                             <div key={i} className="friendArea d-flex mb-2">
                                     <div className="img">
-                                        <img src={item.photo} alt="" />
+                                        <img src={`/documents/${item.photo}`} alt="" />
                                     </div>
                                     <div className="text">
                                         <h6>{item['userName']}</h6>

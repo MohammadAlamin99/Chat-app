@@ -49,18 +49,21 @@ exports.UserFriends = async (req) => {
 }
 
 
-// update profile
-exports.UpadateProfile = async (req, res)=>{
+
+exports.UpadateProfile = async (req)=>{
     try {
         let email = req.headers.email;
         let reqBody = req.body;
+        let photo = req.file.filename;
+        reqBody.photo = photo;
         let data = await UsersModel.updateOne({email:email},reqBody);
         return({status:"success", data:data});
 
     } catch (e) {
-        return {status:"fail", message:"something went wrong"}
+        return {status:"fail", message:e.message}
     }
 }
+
 
 // get user details
 exports.UserProfileDetails = async (req)=>{

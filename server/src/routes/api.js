@@ -9,7 +9,7 @@ const router = express.Router();
 
 
 router.post("/registration", usersController.registration);
-router.post("/profileUpdate",authVerificationMiddleware, usersController.profileUpdate);
+router.post("/profileUpdate",upload.single("photo"),authVerificationMiddleware, usersController.profileUpdate);
 router.get("/userDetails",authVerificationMiddleware, usersController.userDetails);
 router.post("/login", usersController.login);
 router.get("/userFriends",authVerificationMiddleware, usersController.userFriends);

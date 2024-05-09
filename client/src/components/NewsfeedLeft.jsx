@@ -25,10 +25,7 @@ const NewsfeedLeft = (props) => {
                 <PiChatCircleText style={{fontSize:"25px", color:"#000", cursor:"pointer", marginRight:"9px"}}/>
                     <Link style={{textDecoration:"none"}} to={"/message"}><p>Messanger</p></Link>
                 </div>
-                <div className="logOut d-flex"style={{cursor:"pointer", marginLeft:"52px"}}>
-                <RiSettings3Line style={{fontSize:"25px", color:"#000", cursor:"pointer", marginRight:"9px"}}/>
-                    <Link style={{textDecoration:"none"}} to={"/edit"}><p>Settings</p></Link>
-                </div>
+                
                 <div onClick={onLogout} className="logOut d-flex"style={{cursor:"pointer", marginLeft:"52px"}}>
                 <IoIosLogOut style={{fontSize:"25px", color:"#000", cursor:"pointer", marginRight:"9px"}}/>
                     <p>Log out</p>
