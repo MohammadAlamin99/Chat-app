@@ -198,12 +198,14 @@ return (
                                 activeFriend.map((item, i)=>{
                                     return(
                                         <div key={i} className="img">
-                                            <img src={item.data.photo} alt="" />
+                                            <img src={`/documents/${item.data['photo']}`} alt="" />
                                             <div className="activeFrnd"></div>
                                         </div>
                                         )
                                 })
-                            ):(<p style={{textAlign:"center", fontFamily:"'Poppins', sans-serif", fontSize:"13px", color:"#495057"}}>Not active friend</p>)
+                            ):(<p style={{textAlign:"center", 
+                            fontFamily:"'Poppins', sans-serif", 
+                            fontSize:"13px", color:"#495057"}}>Not active friend</p>)
                     }  
                     </div>
 
@@ -224,7 +226,7 @@ return (
                                 ("col-lg-12 activeFrndSection d-flex vw-100 active mb-2"):
                                 ("col-lg-12 activeFrndSection d-flex mb-2")} onClick={()=>setCurrentFriend(item)}>
                                     <div className="img">
-                                        <img src={item.photo} alt="" />
+                                        <img src={`/documents/${item['photo']}`} alt="" />
                                     </div>
                                     <div className="text">
                                         <h6>{item['userName']}</h6>
@@ -251,7 +253,7 @@ return (
                             <div className="borderAdding d-flex" style={{ boxShadow: "3px 3px 6px 0px #C8C8C8"}}>
                                 <div className="col-10 p-0 profileSecton abc d-flex">
                                     <div className="img">
-                                        <img src={currentFriend.photo} alt="" />
+                                        <img src={`/documents/${currentFriend['photo']}`} alt="" />
                                     </div>
                                     <div className="text">
                                         <p>{currentFriend.userName}</p>
@@ -271,7 +273,7 @@ return (
                                 <div className="row">
                                     <div className="col-12 msg">
                                         <div className="MsgImg">
-                                            <img src={currentFriend.photo} alt="" />
+                                            <img src={`/documents/${currentFriend['photo']}`} alt="" />
                                         </div>
                                         <div className="textSection">
                                             <p>{currentFriend.userName}</p>
@@ -290,7 +292,7 @@ return (
                     {item.senderId !== senderId ? (
                         <div className="mainConv">
                             <div className="img">
-                                <img src={currentFriend.photo} alt="" />
+                                <img src={`/documents/${currentFriend['photo']}`} alt="" />
                             </div>
                             <div className="message">
                                     <div className={item.message?("msg"):"d-none"}>

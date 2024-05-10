@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaUserCircle } from "react-icons/fa";
 import { IoChatbubblesSharp } from "react-icons/io5";
 import { FaSearch } from 'react-icons/fa';
 import { IoHome } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { getUserDetails } from '../helper/sessionHelper';
+import { userDetailsRequest } from '../apiRequest/apiRequest';
+import { useDispatch, useSelector } from 'react-redux';
+import { setDetails } from '../redux/state-slice/userDetails-slice';
 const Header = () => {
-    let myInfo = getUserDetails();
+    const dispatch = useDispatch();
+    const getDetails = useSelector((state)=> state.getDetails.details);
+    useEffect(()=>{
+        (async()=>{
+            let result = await userDetailsRequest();
+            dispatch(setDetails(result[0]))
+        })()
+    },[0])
     return (
         <div>
             <div className="container-fluid" style={{position:"fixed", zIndex:"9999", background:"#fff"}}>
@@ -32,8 +41,8 @@ const Header = () => {
                 <div className="col-lg-3">
                     <Link to={"/profile"} style={{textDecoration:"none"}}>
                     <div className="myProfile d-flex" style={{cursor:"pointer"}}>
-                    <img src={myInfo.photo} alt="" />
-                    <p style={{textDecoration:"none"}}>{myInfo.userName}</p>
+                    <img src={`/documents/${getDetails['photo']}`} alt="" />
+                    <p style={{textDecoration:"none"}}>{getDetails['userName']}</p>
                     <div className="myActive"></div>
                     </div>
                     </Link>

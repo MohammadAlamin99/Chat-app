@@ -21,7 +21,7 @@ const RighSilde = (props) => {
             <div className="row vh-100">
                 <div className="col-12">
                         <div className="Right-img">
-                            <img src={currentFriend.photo} alt="" />
+                            <img src={`/documents/${currentFriend['photo']}`} alt="" />
                         </div>              
 
                         <div className="rightName">

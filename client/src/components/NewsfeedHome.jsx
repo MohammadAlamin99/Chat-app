@@ -15,6 +15,8 @@ const NewsfeedHome = (props) => {
     const dispatch = useDispatch();
     const getPost = useSelector((state) => state.getPost.post);
     const getComment = useSelector((state)=> state.getComment.comment);
+    const getDetails = useSelector((state)=> state.getDetails.details);
+
     const { myInfo } = props;
     const postRef = useRef();
     const [showCommentBox, setShowCommentBox] = useState({}); 
@@ -97,7 +99,7 @@ const NewsfeedHome = (props) => {
                 ):(
                     <div>
             <div className="myProfile d-flex" style={{ cursor: "pointer",justifyContent:"space-between"}}>
-                <img src={myInfo.photo} alt="" />
+                <img src={`/documents/${getDetails['photo']}`} alt="" />
                 <textarea ref={postRef} type="text" placeholder='Whats on your mind?'
                     style={{ width: "400px", height: "45px", borderRadius: "10px", marginLeft: "13px", marginTop: "7px" }} />
                 <div className="file customHover">
@@ -114,8 +116,8 @@ const NewsfeedHome = (props) => {
                     const isLiked = item.like.includes(myInfo._id);
                     return (
                         <div key={i} className="postBody">
-                            <div className="postHead d-flex mt-2">
-                                <img style={{ width: "40px", height: "40px", borderRadius: "50%" }} src={item.senderInfo.photo} alt="" />
+                            <div className="postHead d-flex mt-2"> 
+                                <img style={{ width: "40px", height: "40px", borderRadius: "50%" }} src={`/documents/${item.senderInfo.photo}`} alt="" />
                                 <p> {item.senderInfo.userName}</p>
                             </div>
                             <div className="createpost">
@@ -141,7 +143,7 @@ const NewsfeedHome = (props) => {
                                                     return(
                                                       < div key={i}>
                                                       <div className="postHead d-flex mt-2">
-                                            <img style={{ width: "30px", height: "30px", borderRadius: "50%" }} src={item.senderInfo.photo} alt="" />
+                                            <img style={{ width: "30px", height: "30px", borderRadius: "50%" }} src={`/documents/${item.senderInfo.photo}`} alt="" />
                                            <div className="namandTime">
                                            <p className='mb-0'>{item.senderInfo.userName}</p>
                                             <h6>{moment(item.createdDate).format('LL')}</h6>

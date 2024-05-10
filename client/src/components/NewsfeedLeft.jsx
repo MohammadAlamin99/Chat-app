@@ -1,11 +1,13 @@
 import React from 'react';
 import { IoIosLogOut } from "react-icons/io";
 import { PiChatCircleText } from "react-icons/pi";
-import { RiSettings3Line } from "react-icons/ri";
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const NewsfeedLeft = (props) => {
     const{myInfo} = props;
+
+    const getDetails = useSelector((state)=> state.getDetails.details);
 
     const onLogout = ()=>{
        localStorage.clear();
@@ -16,8 +18,8 @@ const NewsfeedLeft = (props) => {
         <div style={{position:"fixed"}}>
            <Link to={"/profile"} style={{textDecoration:"none"}}>
            <div className="myProfile d-flex" style={{cursor:"pointer"}}>
-                    <img src={myInfo.photo} alt="" />
-                    <p>{myInfo.userName}</p>
+                    <img src={`/documents/${getDetails['photo']}`} alt="" />
+                    <p>{getDetails['userName']}</p>
                 </div>
            </Link>
 

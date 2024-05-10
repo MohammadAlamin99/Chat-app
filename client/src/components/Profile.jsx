@@ -11,7 +11,6 @@ import { setComment } from '../redux/state-slice/comment-slice';
 import { getUserDetails } from '../helper/sessionHelper';
 import { MdDelete } from "react-icons/md";
 import Header from './Header';
-import { Link, NavLink } from 'react-router-dom';
 import BarLoader  from "react-spinners/BarLoader";
 import moment from 'moment'
 import { ImCamera } from "react-icons/im";
@@ -20,6 +19,7 @@ const Profile = () => {
     const dispatch = useDispatch();
     const getPost = useSelector((state) => state.getPost.post);
     const getComment = useSelector((state)=> state.getComment.comment);
+    const getDetails = useSelector((state)=> state.getDetails.details);
     const myInfo = getUserDetails()
     const postRef = useRef();
     const [showCommentBox, setShowCommentBox] = useState({}); 
@@ -125,8 +125,8 @@ const Profile = () => {
               const formData = new FormData();
               formData.append('photo', photo);
               
-              let result = await updateProfileRequest(formData);
-             window.location.reload()
+                await updateProfileRequest(formData);
+                window.location.reload()
           }
 
     return (
@@ -149,7 +149,7 @@ const Profile = () => {
             <div className="row">
                 <div className="col-lg-12 d-flex">
                     <div className="profileSection d-flex">
-                        <img  src={`/documents/${myInfo.photo}`}alt="" />
+                        <img  src={`/documents/${getDetails['photo']}`}alt="" />
                     </div>
                     <div className="myInfo">
                         <h1>{myInfo.userName}</h1>
@@ -164,7 +164,7 @@ const Profile = () => {
                 <div className="container pt-3">
        
             <div className="myProfile d-flex" style={{ cursor: "pointer", justifyContent:"space-between"}}>
-                <img src={myInfo.photo} alt=""/>
+                <img src={`/documents/${getDetails['photo']}`} alt=""/>
                 <textarea ref={postRef} type="text" placeholder='Whats on your mind?'
                     style={{ width: "450px", height: "39px", borderRadius: "10px", marginLeft: "13px", marginTop: "7px" }} />
                 <div className="file customHover">
@@ -182,7 +182,7 @@ const Profile = () => {
                     return (
                         <div key={i} className="postBody">
                             <div className="postHead d-flex mt-2">
-                                <img style={{ width: "40px", height: "40px", borderRadius: "50%" }} src={item.senderInfo.photo} alt="" />
+                                <img style={{ width: "40px", height: "40px", borderRadius: "50%" }} src={`/documents/${item.senderInfo.photo}`} alt="" />
                                 <p> {item.senderInfo.userName}</p>
                                 <MdDelete style={{cursor:"pointer", fontSize:"19px", marginLeft:"15px", marginTop:"3px", color:"#E42645"}} onClick={()=> deletePostHandler(item._id)}/>
                             </div>
