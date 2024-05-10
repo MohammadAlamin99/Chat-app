@@ -3,6 +3,7 @@ import { SearchingFriends } from '../apiRequest/apiRequest';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFriends } from '../redux/state-slice/searchFriends-slice';
 import { getUserDetails } from '../helper/sessionHelper';
+import { Link } from 'react-router-dom';
 
 const NewsfeedRight = () => {
 
@@ -27,6 +28,7 @@ const NewsfeedRight = () => {
                         SearchFriends.length>0?(
                             SearchFriends.filter(f=>f._id!==senderId).map((item, i)=>{
                         return(
+                           <Link to={'/friendsProfile/'+item._id} style={{textDecoration:"none"}}>
                             <div key={i} className="friendArea d-flex mb-2">
                                     <div className="img">
                                         <img src={`/documents/${item.photo}`} alt="" />
@@ -35,6 +37,7 @@ const NewsfeedRight = () => {
                                         <h6>{item['userName']}</h6>
                                     </div>
                             </div>  
+                           </Link>
                                 )
                         })
                         ):( <p style={{textAlign:"center", fontFamily:"'Poppins', sans-serif", fontSize:"13px", color:"#495057"}}>No Friends</p>)

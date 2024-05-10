@@ -1,6 +1,7 @@
 const UsersModel = require("../models/usersModel");
 const jwt = require("jsonwebtoken");
-
+const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 
 // user Registration
 exports.UserRegistration = async (req) => {
@@ -79,6 +80,22 @@ exports.UserProfileDetails = async (req)=>{
         return {status:"fail", message:"something went wrong"}
     }
 }
+
+// for friend profile
+exports.friendsProfile = async (req)=>{
+    try {
+        let id = new ObjectId(req.params.id);
+        let data = await UsersModel.aggregate([
+            {$match:{_id:id}},
+            {$project:{_id:1,email:1,userName:1,photo:1,password:1}}
+        ])
+        return({status:"success", data:data});
+
+    } catch (e) {
+        return {status:"fail", message:"something went wrong"}
+    }
+}
+
 
 
 

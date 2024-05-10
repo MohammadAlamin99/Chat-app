@@ -117,6 +117,16 @@ export async function userDetailsRequest(){
         return false 
     }
 }
+// profile for friends details
+export async function friendsProfileRequest(id){
+    try {
+        let result = await axios.get(BaseURL+'/api/v1/friendProfileDetails/'+id,Headers);
+        let data = result.data['data']
+        return data;
+    } catch (e) {
+        return false 
+    }
+}
 
 
 // like and dislike api call

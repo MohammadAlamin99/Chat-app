@@ -1,7 +1,8 @@
+
 import Swal from 'sweetalert2'
 import React, { useEffect, useRef, useState } from 'react';
 import { TbPhoto } from "react-icons/tb";
-import { createCommentsRequest, deletePostRequest, getCommentsRequest, getProfilePostRequest, imagePostCreateRequest, likeAndDislikeRequest, postCreatRequest, updateProfileRequest} from '../apiRequest/apiRequest';
+import { createCommentsRequest, deletePostRequest, friendsProfileRequest, getCommentsRequest, getProfilePostRequest, imagePostCreateRequest, likeAndDislikeRequest, postCreatRequest, updateProfileRequest} from '../apiRequest/apiRequest';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPost } from '../redux/state-slice/post-slice';
 import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
@@ -9,59 +10,45 @@ import { AiOutlineMessage } from "react-icons/ai";
 import { IoMdSend } from "react-icons/io";
 import { setComment } from '../redux/state-slice/comment-slice';
 import { getUserDetails } from '../helper/sessionHelper';
-import { MdDelete } from "react-icons/md";
 import Header from './Header';
 import BarLoader  from "react-spinners/BarLoader";
 import moment from 'moment'
-import { ImCamera } from "react-icons/im";
+import { useParams } from 'react-router-dom';
 
-const Profile = () => {
+const FriendsProfile = () => {
     const dispatch = useDispatch();
     const getPost = useSelector((state) => state.getPost.post);
     const getComment = useSelector((state)=> state.getComment.comment);
     const getDetails = useSelector((state)=> state.getDetails.details);
     const myInfo = getUserDetails()
-    const postRef = useRef();
     const [showCommentBox, setShowCommentBox] = useState({}); 
     const [loader, setLoader] = useState(false);
+
+   const {id} = useParams();
+
     useEffect(() => {
         (async () => {
             setLoader(true)
-            let result = await getProfilePostRequest(myInfo._id);
+            let result = await getProfilePostRequest(id);
             setLoader(false)
             dispatch(setPost(result))
         })()
     }, [])
 
-    const createPostHandler = async () => {
-        const post = postRef.current.value;
-        if (post.length !== 0) {
-            setLoader(true)
-            await postCreatRequest(myInfo._id, post);
-            setLoader(false)
-            location.reload()
-        }
+    const [friendInf, setFriendInf] = useState([])
 
-    }
+    useEffect(()=>{
+        (async()=>{
+            let result = await friendsProfileRequest(id);
+            setFriendInf(result[0])
+        })()
+    },[0])
 
-    const postImgHandler = async (e) => {
-        const post = postRef.current.value;
-        const formData = new FormData();
-        formData.append('senderId', myInfo._id);
-        formData.append('post', post);
-        formData.append('image', e.target.files[0]);
-        setLoader(true)
-        await imagePostCreateRequest(formData);
-        setLoader(false)
-        location.reload()
 
-    }
 
     const LikeHandler = async (postId) => {
-        await likeAndDislikeRequest(postId, myInfo._id);
-        setLoader(true)
-        let result = await getProfilePostRequest(myInfo._id);
-        setLoader(false)
+        await likeAndDislikeRequest(postId, id);
+        let result = await getProfilePostRequest(id);
         dispatch(setPost(result))
     }
 
@@ -91,44 +78,8 @@ const Profile = () => {
                 dispatch(setComment(info))
         };
 
-        const deletePostHandler = async(id)=>{
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
-              }).then(async(result) => {
-                if (result.isConfirmed) {
-                    
-                  Swal.fire({
-                    title: "Deleted!",
-                    text: "Your file has been deleted.",
-                    icon: "success"
-                  });
-                    setLoader(true)
-                    await deletePostRequest(id, myInfo._id);
-                    window.location.reload();
-                    setLoader(false)
-                }
-              });
-        }
-        const photoRef = useRef();
-
-        // profile changeing
-        const updateHandler = async () => {
-            let photo = photoRef.current.files[0];
-        
-        
-              const formData = new FormData();
-              formData.append('photo', photo);
-              
-                await updateProfileRequest(formData);
-                window.location.reload()
-          }
-
+      
+  
     return (
         <>
             {
@@ -149,32 +100,16 @@ const Profile = () => {
             <div className="row">
                 <div className="col-lg-12 d-flex">
                     <div className="profileSection d-flex">
-                        <img  src={`/documents/${getDetails['photo']}`}alt="" />
+                        <img  src={`/documents/${friendInf['photo']}`}alt="" />
                     </div>
                     <div className="myInfo">
-                        <h1>{myInfo.userName}</h1>
-                            <h3> {myInfo.email}</h3>
-                        <input ref={photoRef} onChange={updateHandler} type="file" id="myFile" name="filename"/>
-
-                        <label htmlFor="myFile">
-                        <ImCamera style={{marginBottom:"8px", marginLeft:"6px"}}/>
-                        </label>
+                        <h1>{friendInf.userName}</h1>
+                            <h3> {friendInf.email}</h3>
                     </div>
                 </div>
-                <div className="container pt-3">
+                <div className="container pt-5">
        
-            <div className="myProfile d-flex" style={{ cursor: "pointer", justifyContent:"space-between"}}>
-                <img src={`/documents/${getDetails['photo']}`} alt=""/>
-                <textarea ref={postRef} type="text" placeholder='Whats on your mind?'
-                    style={{ width: "450px", height: "39px", borderRadius: "10px", marginLeft: "13px", marginTop: "7px" }} />
-                <div className="file customHover">
-                    <input onChange={postImgHandler} type="file" id="myFile" name="filename" />
-                    <label htmlFor="myFile">
-                        <TbPhoto style={{ color: "#41B35D", fontSize: "37px", marginTop: "7px", marginLeft: "8px"}} /> </label>
-                </div>
-                <button onClick={createPostHandler} 
-            style={{ width: "72px", height: "39px", marginTop: "8px", background:"#26B7D4", color:"white", borderRadius:"7px", border:"none"}}>Post</button>
-            </div>
+           
 
             {getPost.length > 0 ? (
                 getPost.map((item, i) => {
@@ -184,7 +119,6 @@ const Profile = () => {
                             <div className="postHead d-flex mt-2">
                                 <img style={{ width: "40px", height: "40px", borderRadius: "50%" }} src={`/documents/${item.senderInfo.photo}`} alt="" />
                                 <p> {item.senderInfo.userName}</p>
-                                <MdDelete style={{cursor:"pointer", fontSize:"19px", marginLeft:"15px", marginTop:"3px", color:"#E42645"}} onClick={()=> deletePostHandler(item._id)}/>
                             </div>
                             <div className="createpost">
                                 <p>{item.post}</p>
@@ -254,4 +188,4 @@ const Profile = () => {
     );
 };
 
-export default Profile;
+export default FriendsProfile;

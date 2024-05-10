@@ -1,4 +1,4 @@
-const { UserRegistration, UserLogin, UserFriends, UpadateProfile, UserProfileDetails } = require("../services/usersService");
+const { UserRegistration, UserLogin, UserFriends, UpadateProfile, UserProfileDetails, friendsProfile } = require("../services/usersService");
 
 
 exports.registration = async (req, res) => {
@@ -24,6 +24,10 @@ exports.registration = async (req, res) => {
  
  exports.userDetails = async (req, res) => {
     let result = await UserProfileDetails(req);
+    return res.status(200).json(result);
+ }
+ exports.friendProfileDetails = async (req, res) => {
+    let result = await friendsProfile(req);
     return res.status(200).json(result);
  }
  

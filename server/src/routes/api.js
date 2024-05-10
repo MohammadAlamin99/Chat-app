@@ -11,6 +11,7 @@ const router = express.Router();
 router.post("/registration", usersController.registration);
 router.post("/profileUpdate",upload.single("photo"),authVerificationMiddleware, usersController.profileUpdate);
 router.get("/userDetails",authVerificationMiddleware, usersController.userDetails);
+router.get("/friendProfileDetails/:id",authVerificationMiddleware, usersController.friendProfileDetails);
 router.post("/login", usersController.login);
 router.get("/userFriends",authVerificationMiddleware, usersController.userFriends);
 router.post("/message",authVerificationMiddleware,massageController.message);
