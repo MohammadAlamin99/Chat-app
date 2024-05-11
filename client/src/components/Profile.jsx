@@ -154,9 +154,9 @@ const Profile = () => {
                     <div className="myInfo">
                         <h1>{myInfo.userName}</h1>
                             <h3> {myInfo.email}</h3>
-                        <input ref={photoRef} onChange={updateHandler} type="file" id="myFile" name="filename"/>
+                        <input ref={photoRef} onChange={updateHandler} type="file" id="profileFile" name="filename"/>
 
-                        <label htmlFor="myFile">
+                        <label htmlFor="profileFile">
                         <ImCamera style={{marginBottom:"8px", marginLeft:"6px"}}/>
                         </label>
                     </div>

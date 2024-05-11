@@ -47,11 +47,11 @@ const FriendsProfile = () => {
 
 
     const LikeHandler = async (postId) => {
-        await likeAndDislikeRequest(postId, id);
+        await likeAndDislikeRequest(postId, myInfo._id);
         let result = await getProfilePostRequest(id);
-        dispatch(setPost(result))
-    }
-
+        dispatch(setPost(result));
+    };
+    
     const toggleCommentBox = async (postId) => {
         setShowCommentBox(prevState => ({
             ...prevState,
