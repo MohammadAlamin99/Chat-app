@@ -16,7 +16,7 @@ router.post("/login", usersController.login);
 router.get("/userFriends",authVerificationMiddleware, usersController.userFriends);
 router.post("/message",authVerificationMiddleware,massageController.message);
 router.get("/getMessage/:id",authVerificationMiddleware, massageController.getMessage);
-router.post("/sendImage", upload.single("image"), massageController.sendImage);
+router.post("/sendImage", upload.single("image"),authVerificationMiddleware, massageController.sendImage);
 router.post("/postCreate", authVerificationMiddleware, createPostController.postCreate);
 router.get("/findPost", authVerificationMiddleware, createPostController.findPost);
 router.post("/creatImagePost", upload.single("image"), authVerificationMiddleware,createPostController.creatImagePost);
