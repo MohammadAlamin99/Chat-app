@@ -3,7 +3,7 @@
 import axios from "axios";
 import { getToken } from "../helper/sessionHelper";
 
-let BaseURL = "http://localhost:5000";
+let BaseURL = "https://share-media-application.onrender.com";
 // https://share-media-application.onrender.com/
 const Headers ={headers:{"token":getToken()}};
 
