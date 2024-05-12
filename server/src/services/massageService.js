@@ -1,5 +1,6 @@
 
 const massageModel = require("../models/massageModel");
+const cloudinary = require("../middleware/cludinary")
 
 exports.message = async (req) => {
     try {
@@ -30,15 +31,27 @@ exports.getMessage = async (req) => {
 
 
 
+
+
 exports.sendImageMessage = async (req) => {
     try {
         let reqBody = req.body;
-        let image = req.file.filename;
-        reqBody.image = image;
-        let result = await massageModel.create(reqBody);
-        return {status:"success", message:result}
+        // Upload image to Cloudinary
+        let result = await cloudinary.uploader.upload(req.file.path);
+        
+        // Get the Cloudinary URL for the uploaded image
+        let imageUrl = result.secure_url;
+        
+        // Add the image URL to the request body
+        reqBody.image = imageUrl;
+        
+        // Create a record in your database with the image URL
+        let savedRecord = await massageModel.create(reqBody);
+        
+        return {status:"success", message:savedRecord};
     } catch (e) {
-        return {status:"fail", message:"Something Went Wrong"}
+        console.log(e)
+        return {status:"fail", message:"Something Went Wrong"};
     }
 }
 

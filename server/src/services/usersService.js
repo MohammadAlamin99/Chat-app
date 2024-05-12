@@ -1,5 +1,6 @@
 const UsersModel = require("../models/usersModel");
 const jwt = require("jsonwebtoken");
+const cloudinary = require("../middleware/cludinary");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -51,19 +52,26 @@ exports.UserFriends = async (req) => {
 
 
 
-exports.UpadateProfile = async (req)=>{
+exports.UpadateProfile = async (req) => {
     try {
-        let email = req.headers.email;
-        let reqBody = req.body;
-        let photo = req.file.filename;
-        reqBody.photo = photo;
-        let data = await UsersModel.updateOne({email:email},reqBody);
-        return({status:"success", data:data});
+      let email = req.headers.email;
+      let reqBody = req.body;  
 
+      const result = await cloudinary.uploader.upload(req.file.path);
+      let imageUrl = result.secure_url;
+        
+        // Add the image URL to the request body
+        reqBody.photo = imageUrl;
+
+      let data = await UsersModel.updateOne({ email: email }, reqBody);
+  
+      return { status: "success", data: data };
     } catch (e) {
-        return {status:"fail", message:e.message}
+      return { status: "fail", message: e.message };
     }
-}
+  };
+  
+
 
 
 // get user details

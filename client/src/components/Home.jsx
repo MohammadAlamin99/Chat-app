@@ -141,6 +141,8 @@ const sendImage = async (e) => {
         formData.append('image', e.target.files[0]);
         
         let result = await imageMessageSendRequest(formData);
+        const updatedMessages = await getMessageRequiest(receverId);
+        dispatch(setMessage(updatedMessages));
 
         // sending Imgae from socket server
         socket.current.emit("sendImage",{
@@ -198,7 +200,7 @@ return (
                                 activeFriend.map((item, i)=>{
                                     return(
                                         <div key={i} className="img">
-                                            <img src={`/documents/${item.data['photo']}`} alt="" />
+                                            <img src={item.data['photo']} alt="" />
                                             <div className="activeFrnd"></div>
                                         </div>
                                         )
@@ -226,7 +228,7 @@ return (
                                 ("col-lg-12 activeFrndSection d-flex vw-100 active mb-2"):
                                 ("col-lg-12 activeFrndSection d-flex mb-2")} onClick={()=>setCurrentFriend(item)}>
                                     <div className="img">
-                                        <img src={`/documents/${item['photo']}`} alt="" />
+                                        <img src={item['photo']} alt="" />
                                     </div>
                                     <div className="text">
                                         <h6>{item['userName']}</h6>
@@ -253,7 +255,7 @@ return (
                             <div className="borderAdding d-flex" style={{ boxShadow: "3px 3px 6px 0px #C8C8C8"}}>
                                 <div className="col-10 p-0 profileSecton abc d-flex">
                                     <div className="img">
-                                        <img src={`/documents/${currentFriend['photo']}`} alt="" />
+                                        <img src={currentFriend['photo']} alt="" />
                                     </div>
                                     <div className="text">
                                         <p>{currentFriend.userName}</p>
@@ -273,7 +275,7 @@ return (
                                 <div className="row">
                                     <div className="col-12 msg">
                                         <div className="MsgImg">
-                                            <img src={`/documents/${currentFriend['photo']}`} alt="" />
+                                            <img src={currentFriend['photo']} alt="" />
                                         </div>
                                         <div className="textSection">
                                             <p>{currentFriend.userName}</p>
@@ -292,14 +294,14 @@ return (
                     {item.senderId !== senderId ? (
                         <div className="mainConv">
                             <div className="img">
-                                <img src={`/documents/${currentFriend['photo']}`} alt="" />
+                                <img src={currentFriend['photo']} alt="" />
                             </div>
                             <div className="message">
                                     <div className={item.message?("msg"):"d-none"}>
                                         <p>{item.message}</p>
                                     </div>
                                     <div className={item.image?("myimage"):"d-none"}>
-                                        <img src={`/documents/${item.image}`} alt="" />
+                                        <img src={item.image} alt="" />
                                     </div>
                                         <div className="date">
                                       
@@ -315,7 +317,7 @@ return (
                                         <p>{item.message}</p>
                                     </div>
                                     <div className={item.image?("myimage"):("d-none")}>
-                                        <img src={`/documents/${item.image}`} alt="" />
+                                        <img src={item.image} alt="" />
                                       </div>
 
                                       <div className="date">

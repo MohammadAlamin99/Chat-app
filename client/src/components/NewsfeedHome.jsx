@@ -99,7 +99,7 @@ const NewsfeedHome = (props) => {
                 ):(
                     <div>
             <div className="myProfile d-flex" style={{ cursor: "pointer",justifyContent:"space-between"}}>
-                <img src={`/documents/${getDetails['photo']}`} alt="" />
+                <img src={getDetails['photo']} alt="" />
                 <textarea ref={postRef} type="text" placeholder='Whats on your mind?'
                     style={{ width: "400px", height: "45px", borderRadius: "10px", marginLeft: "13px", marginTop: "7px" }} />
                 <div className="file customHover">
@@ -117,14 +117,14 @@ const NewsfeedHome = (props) => {
                     return (
                         <div key={i} className="postBody">
                             <div className="postHead d-flex mt-2"> 
-                                <img style={{ width: "40px", height: "40px", borderRadius: "50%" }} src={`/documents/${item.senderInfo.photo}`} alt="" />
+                                <img style={{ width: "40px", height: "40px", borderRadius: "50%" }} src={item.senderInfo.photo} alt="" />
                                 <p> {item.senderInfo.userName}</p>
                             </div>
                             <div className="createpost">
                                 <p>{item.post}</p>
                             </div>
                             <span>{moment(item.createdDate).format('LL')}</span>
-                            <img style={{ width: "100%", borderRadius: "5px", marginTop: "2px", cursor: "pointer", marginLeft: "5px", height: "auto", marginBottom: "7px" }} src={`/documents/${item.image}`} alt="" />
+                            <img style={{ width: "100%", borderRadius: "5px", marginTop: "2px", cursor: "pointer", marginLeft: "5px", height: "auto", marginBottom: "7px" }} src={item.image} alt="" />
                             <div className="likeComment d-flex" style={{ marginTop: "8px" }}>
                                 <div onClick={() => LikeHandler(item._id)} className="like d-flex" style={{ cursor: "pointer", marginRight: "13px" }}>
                                     {isLiked ? <IoIosHeart style={{ color: "red", fontSize: "25px" }} /> : <IoIosHeartEmpty style={{ color: "#495057", fontSize: "25px" }} />}
@@ -143,7 +143,7 @@ const NewsfeedHome = (props) => {
                                                     return(
                                                       < div key={i}>
                                                       <div className="postHead d-flex mt-2">
-                                            <img style={{ width: "30px", height: "30px", borderRadius: "50%" }} src={`/documents/${item.senderInfo.photo}`} alt="" />
+                                            <img style={{ width: "30px", height: "30px", borderRadius: "50%" }} src={item.senderInfo.photo} alt="" />
                                            <div className="namandTime">
                                            <p className='mb-0'>{item.senderInfo.userName}</p>
                                             <h6>{moment(item.createdDate).format('LL')}</h6>

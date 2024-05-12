@@ -100,7 +100,7 @@ const FriendsProfile = () => {
             <div className="row">
                 <div className="col-lg-12 d-flex">
                     <div className="profileSection d-flex">
-                        <img  src={`/documents/${friendInf['photo']}`}alt="" />
+                        <img  src={friendInf['photo']}alt="" />
                     </div>
                     <div className="myInfo">
                         <h1>{friendInf.userName}</h1>
@@ -117,7 +117,7 @@ const FriendsProfile = () => {
                     return (
                         <div key={i} className="postBody">
                             <div className="postHead d-flex mt-2">
-                                <img style={{ width: "40px", height: "40px", borderRadius: "50%" }} src={`/documents/${item.senderInfo.photo}`} alt="" />
+                                <img style={{ width: "40px", height: "40px", borderRadius: "50%" }} src={item.senderInfo.photo} alt="" />
                                 <p> {item.senderInfo.userName}</p>
                             </div>
                             <div className="createpost">
@@ -126,7 +126,7 @@ const FriendsProfile = () => {
                             <span>{moment(item.createdDate).format('LL')}</span>
                                 {/* delete post */}
 
-                            <img style={{ width: "100%", borderRadius: "5px", marginTop: "2px", cursor: "pointer", marginLeft: "5px", height: "auto", marginBottom: "7px" }} src={`/documents/${item.image}`} alt="" />
+                            <img style={{ width: "100%", borderRadius: "5px", marginTop: "2px", cursor: "pointer", marginLeft: "5px", height: "auto", marginBottom: "7px" }} src={item.image} alt="" />
                             <div className="likeComment d-flex" style={{ marginTop: "8px" }}>
                                 <div onClick={() => LikeHandler(item._id)} className="like d-flex" style={{ cursor: "pointer", marginRight: "13px" }}>
                                     {isLiked ? <IoIosHeart style={{ color: "red", fontSize: "25px" }} /> : <IoIosHeartEmpty style={{ color: "#495057", fontSize: "25px" }} />}
@@ -145,7 +145,7 @@ const FriendsProfile = () => {
                                                     return(
                                                       < div key={i}>
                                                       <div className="postHead d-flex mt-2">
-                                            <img style={{ width: "30px", height: "30px", borderRadius: "50%" }} src={`/documents/${item.senderInfo.photo}`} alt="" />
+                                            <img style={{ width: "30px", height: "30px", borderRadius: "50%" }} src={item.senderInfo.photo} alt="" />
                                            <div className="namandTime">
                                            <p className='mb-0'>{item.senderInfo.userName}</p>
                                             <h6>{moment(item.createdDate).format('LL')}</h6>

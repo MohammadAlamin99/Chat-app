@@ -41,7 +41,7 @@ const Header = () => {
                 <div className="col-lg-3">
                     <Link to={"/profile"} style={{textDecoration:"none"}}>
                     <div className="myProfile d-flex" style={{cursor:"pointer"}}>
-                    <img src={`/documents/${getDetails['photo']}`} alt="" />
+                    <img src={getDetails['photo']} alt="" />
                     <p style={{textDecoration:"none"}}>{getDetails['userName']}</p>
                     <div className="myActive"></div>
                     </div>

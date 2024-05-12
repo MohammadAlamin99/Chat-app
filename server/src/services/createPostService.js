@@ -1,6 +1,7 @@
 const createPostModel = require("../models/createPostModel");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
+const cloudinary = require("../middleware/cludinary");
 
 exports.createPost = async (req) => {
     try {
@@ -42,7 +43,6 @@ exports.profileGetPost = async (req) => {
         ]);
         return {status:"success", message:result}
     } catch (e) {
-        console.log(e)
         return {status:"fail", message:"Something Went Wrong"}
     }
 }
@@ -51,17 +51,19 @@ exports.profileGetPost = async (req) => {
 exports.creatImgPost = async (req) => {
     try {
         let reqBody = req.body;
-        let image = req.file ? req.file.filename : null; 
-        if (image) {
-            reqBody.image = image;
-        }
-        let result = await createPostModel.create(reqBody);
-        return { status: "success", message: result };
+        let result = await cloudinary.uploader.upload(req.file.path);
+        let imageUrl = result.secure_url;
+        reqBody.image = imageUrl;
+
+        let data = await createPostModel.create(reqBody);
+        return { status: "success", message: data };
     } catch (e) {
         console.log(e);
         return { status: "fail", message: "Something Went Wrong" };
     }
 };
+
+
 exports.deletePost = async (req) => {
     try {
         let id = req.params.id;

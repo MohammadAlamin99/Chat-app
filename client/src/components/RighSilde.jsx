@@ -21,7 +21,7 @@ const RighSilde = (props) => {
             <div className="row vh-100">
                 <div className="col-12">
                         <div className="Right-img">
-                            <img src={`/documents/${currentFriend['photo']}`} alt="" />
+                            <img src={currentFriend['photo']} alt="" />
                         </div>              
 
                         <div className="rightName">
@@ -65,7 +65,7 @@ const RighSilde = (props) => {
                                     getMessage.length>0?(
                                         getMessage.map((item, i)=>{
                                             return(
-                                                <img key={i} src={`/documents/${item.image}`} alt="" />
+                                                <img key={i} src={item.image} alt="" />
                                             )
                                         })
                                     ):(<p style={{textAlign:"center", fontFamily:"'Poppins', sans-serif", fontSize:"13px", color:"#495057"}}>No Image</p>)

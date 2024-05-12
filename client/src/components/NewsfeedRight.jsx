@@ -31,7 +31,7 @@ const NewsfeedRight = () => {
                            <Link to={'/friendsProfile/'+item._id} style={{textDecoration:"none"}}>
                             <div key={i} className="friendArea d-flex mb-2">
                                     <div className="img">
-                                        <img src={`/documents/${item.photo}`} alt="" />
+                                        <img src={item.photo} alt="" />
                                     </div>
                                     <div className="text">
                                         <h6>{item['userName']}</h6>

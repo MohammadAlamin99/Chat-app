@@ -59,9 +59,7 @@ const Profile = () => {
 
     const LikeHandler = async (postId) => {
         await likeAndDislikeRequest(postId, myInfo._id);
-        setLoader(true)
         let result = await getProfilePostRequest(myInfo._id);
-        setLoader(false)
         dispatch(setPost(result))
     }
 
@@ -124,8 +122,9 @@ const Profile = () => {
         
               const formData = new FormData();
               formData.append('photo', photo);
-              
-                await updateProfileRequest(formData);
+              setLoader(true)
+              await updateProfileRequest(formData);
+              setLoader(false)
                 window.location.reload()
           }
 
@@ -149,7 +148,7 @@ const Profile = () => {
             <div className="row">
                 <div className="col-lg-12 d-flex">
                     <div className="profileSection d-flex">
-                        <img  src={`/documents/${getDetails['photo']}`}alt="" />
+                        <img  src={getDetails['photo']}alt="" />
                     </div>
                     <div className="myInfo">
                         <h1>{myInfo.userName}</h1>
@@ -164,7 +163,7 @@ const Profile = () => {
                 <div className="container pt-3">
        
             <div className="myProfile d-flex" style={{ cursor: "pointer", justifyContent:"space-between"}}>
-                <img src={`/documents/${getDetails['photo']}`} alt=""/>
+                <img src={getDetails['photo']} alt=""/>
                 <textarea ref={postRef} type="text" placeholder='Whats on your mind?'
                     style={{ width: "450px", height: "39px", borderRadius: "10px", marginLeft: "13px", marginTop: "7px" }} />
                 <div className="file customHover">
@@ -182,7 +181,7 @@ const Profile = () => {
                     return (
                         <div key={i} className="postBody">
                             <div className="postHead d-flex mt-2">
-                                <img style={{ width: "40px", height: "40px", borderRadius: "50%" }} src={`/documents/${item.senderInfo.photo}`} alt="" />
+                                <img style={{ width: "40px", height: "40px", borderRadius: "50%" }} src={item.senderInfo.photo} alt="" />
                                 <p> {item.senderInfo.userName}</p>
                                 <MdDelete style={{cursor:"pointer", fontSize:"19px", marginLeft:"15px", marginTop:"3px", color:"#E42645"}} onClick={()=> deletePostHandler(item._id)}/>
                             </div>
@@ -192,7 +191,7 @@ const Profile = () => {
                             <span>{moment(item.createdDate).format('LL')}</span>
                                 {/* delete post */}
 
-                            <img style={{ width: "100%", borderRadius: "5px", marginTop: "2px", cursor: "pointer", marginLeft: "5px", height: "auto", marginBottom: "7px" }} src={`/documents/${item.image}`} alt="" />
+                            <img style={{ width: "100%", borderRadius: "5px", marginTop: "2px", cursor: "pointer", marginLeft: "5px", height: "auto", marginBottom: "7px" }} src={item.image} alt="" />
                             <div className="likeComment d-flex" style={{ marginTop: "8px" }}>
                                 <div onClick={() => LikeHandler(item._id)} className="like d-flex" style={{ cursor: "pointer", marginRight: "13px" }}>
                                     {isLiked ? <IoIosHeart style={{ color: "red", fontSize: "25px" }} /> : <IoIosHeartEmpty style={{ color: "#495057", fontSize: "25px" }} />}
@@ -211,7 +210,7 @@ const Profile = () => {
                                                     return(
                                                       < div key={i}>
                                                       <div className="postHead d-flex mt-2">
-                                            <img style={{ width: "30px", height: "30px", borderRadius: "50%" }} src={`/documents/${item.senderInfo.photo}`} alt="" />
+                                            <img style={{ width: "30px", height: "30px", borderRadius: "50%" }} src={item.senderInfo.photo} alt="" />
                                            <div className="namandTime">
                                            <p className='mb-0'>{item.senderInfo.userName}</p>
                                             <h6>{moment(item.createdDate).format('LL')}</h6>

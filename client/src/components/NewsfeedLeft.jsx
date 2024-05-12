@@ -18,7 +18,7 @@ const NewsfeedLeft = (props) => {
         <div style={{position:"fixed"}}>
            <Link to={"/profile"} style={{textDecoration:"none"}}>
            <div className="myProfile d-flex" style={{cursor:"pointer"}}>
-                    <img src={`/documents/${getDetails['photo']}`} alt="" />
+                    <img src={getDetails['photo']} alt="" />
                     <p>{getDetails['userName']}</p>
                 </div>
            </Link>
